@@ -1,38 +1,48 @@
-/* Vogelkop · capa de efectos: revelado, parallax, progreso, header, contadores y brillo */
+/* Vogelkop · capa de efectos: revelado, parallax, progreso, header, contadores y brillo.
+   En teléfonos (pantalla chica o táctil) activa el modo ligero: sin parallax ni brillo del cursor,
+   y avisa al visor 3D (window.VKFX.lite) para que baje calidad y fps. */
 (function () {
   var doc = document.documentElement;
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  doc.classList.add('fx');
+  var mq = function (q) { return window.matchMedia && window.matchMedia(q).matches; };
+  var reduce = mq('(prefers-reduced-motion: reduce)');
+  var lite = mq('(max-width: 900px)') || mq('(pointer: coarse)');
+  var FX = window.VKFX = { lite: lite, reduce: reduce, ready: false, onReady: [] };
+  doc.classList.add('fx'); if (lite) doc.classList.add('fx-lite');
+
+  // "listo" = página cargada y navegador ocioso: ahí arrancan los visores 3D, sin competir con el primer pintado
+  FX.whenReady = function (cb) { if (FX.ready) cb(); else FX.onReady.push(cb); };
+  function markReady() { if (FX.ready) return; FX.ready = true; FX.onReady.splice(0).forEach(function (f) { f(); }); }
+  window.addEventListener('load', function () {
+    var go = function () { setTimeout(markReady, lite ? 400 : 0); };
+    if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 1500 }); else setTimeout(go, 200);
+  });
 
   function ready(fn) { if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
 
   ready(function () {
-    // ambiente y barra de progreso
     var amb = document.createElement('div');
     amb.className = 'fx-ambient'; amb.setAttribute('aria-hidden', 'true');
-    amb.innerHTML = '<div class="fx-orbs"><i></i><i></i><i></i></div>';
+    amb.innerHTML = '<i></i><i></i><i></i>';
     document.body.insertBefore(amb, document.body.firstChild);
     var bar = document.createElement('div'); bar.className = 'fx-progress'; bar.setAttribute('aria-hidden', 'true');
     document.body.appendChild(bar);
 
     // revelado al entrar en pantalla, con escalonado por lote
-    var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    var io = 'IntersectionObserver' in window && !reduce ? new IntersectionObserver(function (entries) {
       var n = 0;
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
         var el = e.target;
-        el.style.setProperty('--fx-d', Math.min(n++ * 90, 450) + 'ms');
+        el.style.setProperty('--fx-d', Math.min(n++ * (lite ? 60 : 90), 360) + 'ms');
         el.classList.add('fx-in');
         io.unobserve(el);
         if (el.classList.contains('fx-count')) count(el);
-        el.querySelectorAll && el.querySelectorAll('.fx-count').forEach(function (c) { if (!c.__fxc) count(c); });
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }) : null;
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 }) : null;
 
     // contadores: anima el primer número del elemento conservando su formato
     function count(el) {
       if (el.__fxc) return; el.__fxc = true;
-      if (reduce) return;
       var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), node;
       while ((node = w.nextNode()) && !/\d/.test(node.data)) {}
       if (!node) return;
@@ -46,7 +56,7 @@
         if (dots) int = int.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         return int + (dec ? ',' + parts[1] : '');
       }
-      var t0 = performance.now(), dur = 1600;
+      var t0 = performance.now(), dur = 1400;
       (function tick(now) {
         var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 4);
         node.data = pre + fmt(target * e) + post;
@@ -54,47 +64,44 @@
       })(t0);
     }
 
-    var pars = [];
+    var pars = [], useParallax = !lite && !reduce;
     function scan(root) {
       if (!root.querySelectorAll) return;
       root.querySelectorAll('.rv, .rv-line, .fx-count').forEach(function (el) {
         if (el.__fxo) return; el.__fxo = true;
-        if (io && !reduce) io.observe(el); else { el.classList.add('fx-in'); }
+        if (io) io.observe(el); else el.classList.add('fx-in');
       });
-      root.querySelectorAll('.fx-par').forEach(function (el) { if (!el.__fxp) { el.__fxp = true; pars.push(el); } });
+      if (useParallax) root.querySelectorAll('.fx-par').forEach(function (el) { if (!el.__fxp) { el.__fxp = true; pars.push(el); } });
     }
     scan(document);
     new MutationObserver(function (muts) {
       muts.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.nodeType === 1) scan(n.parentNode || n); }); });
-      pars = pars.filter(function (el) { return el.isConnected; });
+      if (useParallax) pars = pars.filter(function (el) { return el.isConnected; });
+      req();
     }).observe(document.body, { childList: true, subtree: true });
 
-    // scroll: progreso, header, parallax
-    var ticking = false;
+    // scroll: solo escribe en la barra, el header y las imágenes con parallax (nada en la raíz del documento)
+    var ticking = false, scrolled = null, hd = null;
     function onScroll() {
       ticking = false;
-      var y = window.scrollY, h = document.documentElement.scrollHeight - window.innerHeight;
-      doc.style.setProperty('--fx-p', h > 0 ? (y / h).toFixed(4) : 0);
-      doc.style.setProperty('--fx-sy', y);
-      var hd = document.querySelector('header');
-      if (hd) hd.classList.toggle('fx-scrolled', y > 12);
-      if (reduce) return;
-      var vh = window.innerHeight;
-      pars.forEach(function (el) {
-        var r = el.parentNode.getBoundingClientRect();
-        if (r.bottom < -100 || r.top > vh + 100) return;
-        var c = (r.top + r.height / 2 - vh / 2) / vh;
-        el.style.translate = '0 ' + (c * -6).toFixed(2) + '%';
-      });
+      var y = window.scrollY, vh = window.innerHeight, h = document.documentElement.scrollHeight - vh;
+      bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, y / h) : 0).toFixed(4) + ')';
+      if (!hd || !hd.isConnected) { hd = document.querySelector('header'); scrolled = null; }
+      var s = y > 12;
+      if (hd && s !== scrolled) { scrolled = s; hd.classList.toggle('fx-scrolled', s); }
+      for (var i = 0; i < pars.length; i++) {
+        var el = pars[i], r = el.parentNode.getBoundingClientRect();
+        if (r.bottom < -100 || r.top > vh + 100) continue;
+        el.style.translate = '0 ' + (((r.top + r.height / 2 - vh / 2) / vh) * -6).toFixed(2) + '%';
+      }
     }
     function req() { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }
     window.addEventListener('scroll', req, { passive: true });
-    window.addEventListener('resize', req);
-    setInterval(req, 500); // el contenido se monta de forma asíncrona
+    window.addEventListener('resize', req, { passive: true });
     req();
 
-    // brillo que sigue al cursor sobre superficies .fx-spot
-    document.addEventListener('pointermove', function (e) {
+    // brillo que sigue al cursor (solo con mouse)
+    if (!lite) document.addEventListener('pointermove', function (e) {
       var el = e.target.closest && e.target.closest('.fx-spot'); if (!el) return;
       var r = el.getBoundingClientRect();
       el.style.setProperty('--mx', (e.clientX - r.left) + 'px');

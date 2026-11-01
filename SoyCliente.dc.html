@@ -26,10 +26,10 @@
 <link rel="stylesheet" href="ds/vogelkop/tokens.css">
 <link rel="stylesheet" href="ds/vogelkop/components/bundle.css">
 <script src="ds/vogelkop/components/bundle.js"></script>
-<script src="./assets/fb52fda4e33de0cb2643d2c8c4f269ec.js"></script>
-<script src="./assets/4cae64bf54ed648ecbfcb370749adaf7.js"></script>
 <link rel="stylesheet" href="assets/fx.css">
 <script src="assets/fx.js"></script>
+<script defer src="./assets/fb52fda4e33de0cb2643d2c8c4f269ec.js"></script>
+<script defer src="./assets/4cae64bf54ed648ecbfcb370749adaf7.js"></script>
 </head>
 <body>
 <x-dc>
@@ -161,7 +161,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
         <div class="body-sm" style="display: flex; gap: 8px; align-items: center; color: var(--text-muted);"><x-import component-from-global-scope="Vogelkop.Icon" name="circle-check" size="{{ 16 }}"></x-import>Acceso cifrado. Solo tú y tu arquitecto ven la información de tu obra.</div>
       </div>
       <div class="vk-in d2 vk-hide-sm" style="flex: 999 1 520px; min-width: 0; position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 620px;">
-        <img class="fx-par" src="./assets/310d0d93c0edd22fbec81e40657292bf.jpg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <img class="fx-par" srcset="./assets/m/310d0d93c0edd22fbec81e40657292bf.jpg 800w, ./assets/310d0d93c0edd22fbec81e40657292bf.jpg 1200w" sizes="(max-width: 760px) 66vw, 60vw" fetchpriority="high" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" src="./assets/310d0d93c0edd22fbec81e40657292bf.jpg">
         <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.7), rgba(0,0,0,0) 55%);"></div>
         <div class="vk-card" style="position: absolute; left: 24px; right: 24px; bottom: 24px; background: rgba(255,255,255,.55); padding: 20px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; box-shadow: var(--shadow-lg);">
           <div><div class="data-sm" style="color: var(--text-muted);">FOTOS</div><div class="heading-md">Cada semana</div></div>
@@ -180,7 +180,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
         <div style="max-width: 1280px; margin: 0 auto; padding: 32px 32px 0; display: flex; flex-direction: column; gap: 24px;">
           <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
             <div style="display: flex; gap: 16px; align-items: center;">
-              <img src="./assets/bfa8584effdfa4238c696cda8816d4d8.jpg" alt="" style="width: 64px; height: 64px; border-radius: var(--radius-md); object-fit: cover;">
+              <img loading="lazy" decoding="async" alt="" style="width: 64px; height: 64px; border-radius: var(--radius-md); object-fit: cover;" src="./assets/t/bfa8584effdfa4238c696cda8816d4d8.jpg">
               <div>
                 <div class="data-sm" style="color: var(--nav-muted);">VK-2026-CR14 · CHÍA · 412 m²</div>
                 <div class="display-md" style="white-space: nowrap;">Casa Ríos</div>
@@ -232,7 +232,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
             <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch;">
               <div class="vk-card vk-in d1" style="flex: 999 1 560px; min-width: 0; overflow: hidden; display: flex; flex-direction: column;">
                 <div style="position: relative; min-height: 420px; flex: 1; background: var(--vk-black);">
-                  <img src="./assets/310d0d93c0edd22fbec81e40657292bf.jpg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 1.2s; opacity: {{posterOpacity}};">
+                  <img srcset="./assets/m/310d0d93c0edd22fbec81e40657292bf.jpg 800w, ./assets/310d0d93c0edd22fbec81e40657292bf.jpg 1200w" sizes="(max-width: 760px) 66vw, 60vw" loading="lazy" decoding="async" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 1.2s; opacity: {{posterOpacity}};" src="./assets/310d0d93c0edd22fbec81e40657292bf.jpg">
                   <canvas ref="{{setCanvas}}" role="img" aria-label="Modelo 3D de Casa Ríos en la etapa actual" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab;"></canvas>
                   <div class="vk-glass vk-hide-sm" style="position: absolute; top: 16px; left: 16px; padding: 8px 12px; display: flex; gap: 10px; align-items: center;"><span class="vk-live"></span><span class="heading-sm">Modelo 3D · {{stageName}}</span></div>
                   <div class="vk-glass" style="position: absolute; top: 16px; right: 16px; display: flex; gap: 2px; padding: 3px; border-radius: 6px;">
@@ -453,9 +453,10 @@ class Component extends DCLogic {
   kill() { clearTimeout(this.timer); if (this.viewer) this.viewer.dispose(); this.viewer = null; }
   tryInit() {
     if (this.viewer || !this.canvasEl) return;
+    if (!window.VKFX.ready) { if (!this.waiting) { this.waiting = true; window.VKFX.whenReady(() => { this.waiting = false; this.tryInit(); }); } return; }
     if (!window.THREE || !window.VKScene || window.VKScene.version !== 2) { this.timer = setTimeout(() => this.tryInit(), 150); return; }
     this.viewer = new window.VKScene.Viewer(window.THREE, this.canvasEl, {
-      mode: 'orbit', preset: 'casa', stage: 3, time: 'day', az: -0.6, el: 0.25, dist: 1.7, maxPR: 1.75,
+      mode: 'orbit', preset: 'casa', stage: 3, time: 'day', az: -0.6, el: 0.25, dist: 1.7, maxPR: window.VKFX.lite ? 1.5 : 1.75, lite: window.VKFX.lite, maxFps: window.VKFX.lite ? 30 : 0,
       onStage: (s) => this.setState({ stage: s }), onReady: () => this.setState({ ready: true })
     });
   }
@@ -468,7 +469,7 @@ class Component extends DCLogic {
     var pending = VK_OBS.filter(function (o) { return !S.approved[o.id]; }).length;
     var tabs = [['resumen', 'Resumen'], ['fotos', 'Fotos'], ['presupuesto', 'Presupuesto y pagos'], ['obs', 'Observaciones' + (pending ? ' (' + pending + ')' : '')], ['docs', 'Documentos']];
     var openFoto = function (f) { return function () { self.setState({ lb: f }); }; };
-    var fotos = VK_FOTOS.map(function (f) { return Object.assign({ open: openFoto(f) }, f); });
+    var fotos = VK_FOTOS.map(function (f) { return Object.assign({}, f, { open: openFoto(f), src: f.src.replace('./assets/', './assets/m/') }); });
     var money = function (v) { return '$' + v.toLocaleString('es-CO'); };
     return {
       menuOpen: S.menu ? 'true' : 'false', mnavCls: S.menu ? 'vk-mnav open' : 'vk-mnav', menuClosed: !S.menu, menuIsOpen: S.menu,

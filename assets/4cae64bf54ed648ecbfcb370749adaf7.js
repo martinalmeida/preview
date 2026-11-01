@@ -473,7 +473,7 @@
     var hemi = new T.HemisphereLight(0xffffff, 0xb9ae9c, 0.35); scene.add(hemi);
     var sun = new T.DirectionalLight(0xfff1de, 2.6); sun.castShadow = true;
     var b = bounds(P.floors), R = Math.max(b.x1 - b.x0, b.z1 - b.z0, b.top) * 0.5 + 22;
-    sun.shadow.mapSize.set(2048, 2048); var sc = sun.shadow.camera; sc.left = -R; sc.right = R; sc.top = R; sc.bottom = -R; sc.near = 1; sc.far = 300;
+    var sm = renderer.__vkShadow || 2048; sun.shadow.mapSize.set(sm, sm); var sc = sun.shadow.camera; sc.left = -R; sc.right = R; sc.top = R; sc.bottom = -R; sc.near = 1; sc.far = 300;
     sun.shadow.bias = -0.0003; sun.shadow.normalBias = 0.025; sun.target.position.set((b.x0 + b.x1) / 2, 0, (b.z0 + b.z1) / 2); scene.add(sun.target);
     scene.add(sun);
     var ground = plane(T, scene, 900, 900, 0, 0, 0, MM.grass); ground.material = MM.grass;
@@ -498,7 +498,12 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opts.maxPR || 2));
     renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
     renderer.outputEncoding = T.sRGBEncoding; renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1;
+    var lite = !!opts.lite; if (lite) { renderer.shadowMap.type = T.PCFShadowMap; renderer.__vkShadow = 1024; }
     var mode = opts.mode || 'walk';
+    /* rendimiento: no renderizar fuera de pantalla ni con la pestaña oculta; tope de fps opcional */
+    var visible = true, lastDraw = 0, minGap = opts.maxFps ? 1000 / opts.maxFps - 2 : 0;
+    var vio = window.IntersectionObserver ? new IntersectionObserver(function (es) { visible = es[es.length - 1].isIntersecting; }, { rootMargin: '80px' }) : null;
+    if (vio) vio.observe(canvas);
     var cam = new T.PerspectiveCamera(mode === 'walk' ? 70 : 32, 1, 0.1, 1200); cam.rotation.order = 'YXZ';
     var cache = {}, preset = opts.preset || 'casa', stage = opts.stage == null ? 4 : opts.stage, before = opts.before || 0, time = opts.time || 'day';
     var compare = false, split = 0.5, station = 0, yaw = 0, pitch = 0, vy = 0, vp = 0, anim = null, raf = 0, alive = true, ready = false;
@@ -508,7 +513,7 @@
     var rtA = null, rtB = null, quad = null, qcam = new T.OrthographicCamera(-1, 1, 1, -1, 0, 1), fade = null;
     function makeRT() {
       var s = renderer.getDrawingBufferSize(new T.Vector2());
-      var o = { type: T.HalfFloatType, samples: renderer.capabilities.isWebGL2 ? 4 : 0 };
+      var o = { type: T.HalfFloatType, samples: renderer.capabilities.isWebGL2 && !lite ? 4 : 0 };
       if (!rtA) { rtA = new T.WebGLRenderTarget(s.x, s.y, o); rtB = new T.WebGLRenderTarget(s.x, s.y, o); } else { rtA.setSize(s.x, s.y); rtB.setSize(s.x, s.y); }
       if (!quad) {
         var mat = new T.ShaderMaterial({
@@ -546,6 +551,9 @@
     function currentScene() { return scene(stage); }
     function frame(now) {
       if (!alive) return; raf = requestAnimationFrame(frame);
+      if ((!visible || document.hidden) && ready) return;
+      if (minGap && now - lastDraw < minGap) return;
+      var dt = lastDraw ? Math.min(4, (now - lastDraw) / 16.67) : 1; lastDraw = now;
       var idle = now - lastInput > 7000;
       if (mode === 'walk') {
         if (anim) {
@@ -554,10 +562,10 @@
           yaw = anim.y0 + (anim.y1 - anim.y0) * e; pitch = anim.p0 + (anim.p1 - anim.p0) * e;
           cam.fov = 70 + Math.sin(e * Math.PI) * 6; cam.updateProjectionMatrix();
           if (t >= 1) anim = null;
-        } else if (!down) { yaw += vy; pitch = Math.max(-1.2, Math.min(1.2, pitch + vp)); vy *= 0.92; vp *= 0.92; if (idle && opts.drift !== false) yaw += 0.0004; }
+        } else if (!down) { yaw += vy; pitch = Math.max(-1.2, Math.min(1.2, pitch + vp)); vy *= 0.92; vp *= 0.92; if (idle && opts.drift !== false) yaw += 0.0004 * dt; }
         cam.rotation.y = yaw; cam.rotation.x = pitch;
       } else {
-        if (!down) { orbit.az += vy; orbit.el = Math.max(0.03, Math.min(1.2, orbit.el + vp)); vy *= 0.93; vp *= 0.93; if (orbit.auto && (idle || !opts.pauseOnInput)) orbit.az += 0.0009; }
+        if (!down) { orbit.az += vy; orbit.el = Math.max(0.03, Math.min(1.2, orbit.el + vp)); vy *= 0.93; vp *= 0.93; if (orbit.auto && (idle || !opts.pauseOnInput)) orbit.az += 0.0009 * dt; }
         var ce = Math.cos(orbit.el);
         cam.position.set(orbit.target.x + Math.sin(orbit.az) * ce * orbit.r, orbit.target.y + Math.sin(orbit.el) * orbit.r, orbit.target.z + Math.cos(orbit.az) * ce * orbit.r);
         cam.lookAt(orbit.target);
@@ -623,7 +631,7 @@
     this.play = function (on) { if (seq) { seq.on = on !== false; seq.t0 = performance.now(); } };
     this.stations = function () { return PRESETS[preset].stations.map(function (s) { return s.name; }); };
     this.dispose = function () {
-      alive = false; cancelAnimationFrame(raf); if (ro) ro.disconnect();
+      alive = false; cancelAnimationFrame(raf); if (ro) ro.disconnect(); if (vio) vio.disconnect();
       canvas.removeEventListener('pointerdown', pd); canvas.removeEventListener('pointermove', pm); canvas.removeEventListener('pointerup', pu); canvas.removeEventListener('wheel', wh);
       if (rtA) { rtA.dispose(); rtB.dispose(); } renderer.dispose();
     };
