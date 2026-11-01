@@ -28,6 +28,8 @@
 <script src="ds/vogelkop/components/bundle.js"></script>
 <script src="./assets/fb52fda4e33de0cb2643d2c8c4f269ec.js"></script>
 <script src="./assets/4cae64bf54ed648ecbfcb370749adaf7.js"></script>
+<link rel="stylesheet" href="assets/fx.css">
+<script src="assets/fx.js"></script>
 </head>
 <body>
 <x-dc>
@@ -53,7 +55,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-seg{all:unset;box-sizing:border-box;cursor:pointer;height:36px;padding:0 14px;border-radius:4px;font:600 12px/36px Outfit,system-ui,sans-serif;color:#f4efe9;letter-spacing:.02em}
 .vk-seg.on{background:#f4efe9;color:#12100e}
 .vk-seg:focus-visible{outline:2px solid #f29200;outline-offset:2px}
-@keyframes vkUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes vkUp{from{opacity:0;transform:translateY(28px);filter:blur(12px)}to{opacity:1;transform:none;filter:none}}
 @keyframes vkFade{from{opacity:0}to{opacity:1}}
 @keyframes vkLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes vkMarq{to{transform:translateX(-50%)}}
@@ -68,10 +70,6 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-marq:hover{animation-play-state:paused}
 .vk-knob{animation:vkPulse 2.2s ease-in-out infinite,vkNudge 1.6s 1.2s ease-in-out 2}
 .vk-live{width:8px;height:8px;border-radius:99px;background:#f29200;animation:vkDot 1.6s ease-in-out infinite}
-@supports (animation-timeline: view()){
-  .rv{animation:vkUp linear both;animation-timeline:view();animation-range:entry 5% entry 95%}
-  .rv-line{transform-origin:left;animation:vkLine linear both;animation-timeline:view();animation-range:entry 20% entry 100%}
-}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .vk-burger{all:unset;box-sizing:border-box;display:none;width:44px;height:44px;border-radius:4px;place-items:center;cursor:pointer;color:#12100e}
 .vk-burger:focus-visible{outline:2px solid #f29200;outline-offset:2px}
@@ -87,9 +85,9 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 @media (max-width:760px){.vk-hide-sm{display:none!important}.vk-h1{font-size:40px!important;line-height:44px!important}.vk-burger{display:grid}.vk-hdr{flex-wrap:nowrap!important;padding:10px 16px 10px 20px!important;gap:8px!important}.vk-logo{width:130px!important}.vk-cta-top{padding:0 14px!important;height:40px!important;font-size:13px!important}.vk-mnav.open{display:block}.vk-stat{font-size:34px;line-height:40px}}
 </style>
 </helmet>
-<div style="font-family: var(--font-sans); color: var(--text); background: var(--bg); min-height: 100vh; overflow-x: hidden;">
+<div class="vk-app" style="font-family: var(--font-sans); color: var(--text); min-height: 100vh; overflow-x: clip;">
 
-  <div style="background: var(--vk-black); color: var(--vk-cream); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 16px; padding: 10px 24px; font-size: 13px; line-height: 20px; text-align: center;">
+  <div style="background: rgba(0,0,0,.92); backdrop-filter: blur(12px); color: var(--vk-cream); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 16px; padding: 10px 24px; font-size: 13px; line-height: 20px; text-align: center;">
     <span class="vk-live"></span>
     <span>Diagnóstico de tu lote o proyecto <strong style="color: var(--vk-orange);">sin costo</strong> durante noviembre.</span>
     <a href="#contacto" style="color: var(--vk-orange); font-weight: 600; text-decoration: none;">Reservar mi cita <span class="vk-arr">→</span></a>
@@ -129,7 +127,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       <div class="vk-rule" style="width: 64px; height: 2px; background: var(--accent);"></div>
       <p class="body-lg vk-in d2" style="margin: 0; color: var(--text-muted); max-width: 520px;">Un solo equipo para el diseño, la ingeniería, las licencias y la construcción. Precio claro por etapa y tu obra en vivo desde el celular.</p>
 
-      <form class="vk-in d3" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: 24px; display: flex; flex-direction: column; gap: 16px; max-width: 560px;">
+      <form class="vk-in d3 fx-glass fx-spot" style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: 24px; display: flex; flex-direction: column; gap: 16px; max-width: 560px;">
         <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
           <div style="display: flex; flex-direction: column; gap: 16px;">
             <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
@@ -163,20 +161,20 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       <img src="./assets/be17bf3dd51c0c19ae9514984ac4746c.jpg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 1.2s ease; opacity: {{posterOpacity}};">
       <canvas ref="{{setCanvas}}" role="img" aria-label="Modelo 3D de Casa Ríos construyéndose etapa por etapa" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab;"></canvas>
       <div style="position: absolute; top: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; pointer-events: none;">
-        <div style="background: rgba(18,16,14,.78); backdrop-filter: blur(8px); color: var(--vk-cream); border-radius: var(--radius-md); padding: 10px 14px; display: flex; gap: 12px; align-items: center;">
+        <div class="vk-glass" style="background: rgba(18,16,14,.78); backdrop-filter: blur(8px); color: var(--vk-cream); border-radius: var(--radius-md); padding: 10px 14px; display: flex; gap: 12px; align-items: center;">
           <span class="vk-live"></span>
           <div>
             <div class="data-sm" style="color: var(--nav-muted);">VK-2026-CR14 · CHÍA · 412 m²</div>
             <div class="heading-sm">Casa Ríos · {{stageName}}</div>
           </div>
         </div>
-        <div style="display: flex; gap: 2px; padding: 3px; border-radius: 6px; background: rgba(18,16,14,.78); backdrop-filter: blur(8px); pointer-events: auto;">
+        <div class="vk-glass" style="display: flex; gap: 2px; padding: 3px; border-radius: 6px; background: rgba(18,16,14,.78); backdrop-filter: blur(8px); pointer-events: auto;">
           <button class="{{dayCls}}" onClick="{{setDay}}">Día</button>
           <button class="{{duskCls}}" onClick="{{setDusk}}">Atardecer</button>
         </div>
       </div>
       <div style="position: absolute; left: 16px; right: 16px; bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap;">
-        <div style="background: rgba(18,16,14,.78); backdrop-filter: blur(8px); border-radius: var(--radius-md); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 260px;">
+        <div class="vk-glass" style="background: rgba(18,16,14,.78); backdrop-filter: blur(8px); border-radius: var(--radius-md); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 260px;">
           <div style="display: flex; gap: 4px;">
             <sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
               <button onClick="{{s.pick}}" aria-label="{{s.label}}" title="{{s.label}}" style="all: unset; cursor: pointer; flex: 1; height: 4px; border-radius: 2px; background: {{s.bg}}; transition: background .4s; padding: 8px 0; background-clip: content-box;"></button>
@@ -191,7 +189,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 
   <!-- Acceso cliente -->
   <section class="rv" style="max-width: 1280px; margin: 0 auto; padding: 0 32px 56px;">
-    <div style="background: var(--vk-black); color: var(--vk-cream); border-radius: var(--radius-lg); padding: 24px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px;">
+    <div class="fx-glass-dark fx-spot" style="background: var(--vk-black); color: var(--vk-cream); border-radius: var(--radius-lg); padding: 24px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px;">
       <img src="./assets/brand/emblem.png" alt="" style="width: 52px; height: 52px; filter: drop-shadow(0 0 1px rgba(244,239,233,.35));">
       <div style="flex: 1 1 260px; min-width: 0;">
         <div class="heading-md">¿Ya eres cliente?</div>
@@ -207,7 +205,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
   </section>
 
   <!-- Servicios en marquesina -->
-  <section aria-label="Servicios" style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; padding: 22px 0;">
+  <section aria-label="Servicios" class="fx-band" style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; padding: 22px 0;">
     <div class="vk-marq">
       <sc-for list="{{marq}}" as="m" hint-placeholder-count="12">
         <span class="eyebrow" style="color: var(--text-muted); padding: 0 28px; white-space: nowrap;">{{m.t}}</span><span class="eyebrow" style="color: var(--accent-text);">·</span>
@@ -225,11 +223,11 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       <a href="Recorridos.dc.html" class="vk-btn vk-btn--secondary" style="text-decoration: none;">Ver todas en 3D <span class="vk-arr">→</span></a>
     </div>
 
-    <a href="Recorridos.dc.html?p=pabellon" class="vk-card-link vk-feat rv" style="display: flex; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;">
+    <a href="Recorridos.dc.html?p=pabellon" class="vk-card-link vk-feat rv fx-glass fx-spot" style="display: flex; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;">
       <div style="flex: 999 1 560px; min-width: 0; overflow: hidden; min-height: 440px; position: relative;">
         <img class="vk-zoom" src="./assets/9f8dcaf2b19ac59fa3eb7f0550b71f37.jpg" alt="Oficinas Mirador de día, pabellón de vidrio con cubierta flotante" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
         <img class="vk-zoom vk-night" src="./assets/f70a5499461f57b97542481322fbaf2d.jpg" alt="Oficinas Mirador al atardecer con las oficinas iluminadas" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0;">
-        <div class="body-sm" style="position: absolute; left: 16px; bottom: 16px; background: rgba(18,16,14,.78); color: var(--vk-cream); padding: 6px 12px; border-radius: var(--radius-sm);">Pasa el cursor para verla al atardecer</div>
+        <div class="body-sm vk-glass" style="position: absolute; left: 16px; bottom: 16px; background: rgba(18,16,14,.78); color: var(--vk-cream); padding: 6px 12px; border-radius: var(--radius-sm);">Pasa el cursor para verla al atardecer</div>
       </div>
       <div style="flex: 1 1 340px; padding: 40px; display: flex; flex-direction: column; gap: 20px; justify-content: space-between;">
         <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -251,7 +249,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       <sc-for list="{{proyectos}}" as="p" hint-placeholder-count="3">
         <a href="{{p.href}}" class="vk-card-link rv" style="display: flex; flex-direction: column; gap: 16px;">
           <div style="border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4 / 5; background: var(--surface-alt); position: relative;">
-            <img class="vk-zoom" src="{{p.img}}" alt="{{p.alt}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            <img class="vk-zoom fx-par" src="{{p.img}}" alt="{{p.alt}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
             <div style="position: absolute; top: 16px; left: 16px;"><x-import component-from-global-scope="Vogelkop.Badge" tone="{{p.tone}}">{{p.estado}}</x-import></div>
             <div class="vk-veil"><span class="vk-btn vk-btn--primary" style="pointer-events: none;">Recorrer en 3D <span class="vk-arr">→</span></span></div>
           </div>
@@ -284,14 +282,14 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6-6 6 6 6"></path><path d="m15 6 6 6-6 6"></path></svg>
         </div>
       </div>
-      <div class="eyebrow" style="position: absolute; top: 16px; left: 16px; background: var(--surface); padding: 6px 10px; border-radius: var(--radius-sm); opacity: {{beforeOp}}; transition: opacity .3s;">ANTES</div>
-      <div class="eyebrow" style="position: absolute; top: 16px; right: 16px; background: var(--vk-black); color: var(--vk-cream); padding: 6px 10px; border-radius: var(--radius-sm); opacity: {{afterOp}}; transition: opacity .3s;">DESPUÉS</div>
+      <div class="eyebrow fx-glass" style="position: absolute; top: 16px; left: 16px; background: var(--surface); padding: 6px 10px; border-radius: var(--radius-sm); opacity: {{beforeOp}}; transition: opacity .3s;">ANTES</div>
+      <div class="eyebrow vk-glass" style="position: absolute; top: 16px; right: 16px; background: var(--vk-black); color: var(--vk-cream); padding: 6px 10px; border-radius: var(--radius-sm); opacity: {{afterOp}}; transition: opacity .3s;">DESPUÉS</div>
       <input type="range" min="0" max="100" value="{{pos}}" onInput="{{onPos}}" aria-label="Comparar antes y después" class="vk-range">
     </div>
   </section>
 
   <!-- Proceso -->
-  <section id="proceso" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <section id="proceso" class="fx-band" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
     <div style="max-width: 1280px; margin: 0 auto; padding: 96px 32px; display: flex; flex-direction: column; gap: 48px;">
       <div class="rv" style="display: flex; flex-direction: column; gap: 16px; max-width: 720px;">
         <div class="eyebrow" style="color: var(--accent-text);">CÓMO TRABAJAMOS</div>
@@ -299,7 +297,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       </div>
       <ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;">
         <sc-for list="{{pasos}}" as="s" hint-placeholder-count="5">
-          <li class="rv" style="display: flex; flex-direction: column; gap: 12px; padding-top: 20px; position: relative;">
+          <li class="rv fx-glass fx-spot" style="display: flex; flex-direction: column; gap: 12px; padding: 28px 22px 24px; border-radius: var(--radius-lg); position: relative; overflow: hidden;">
             <span class="rv-line" style="position: absolute; top: 0; left: 0; right: 0; height: 2px; background: {{s.line}};"></span>
             <span class="data" style="color: var(--accent-text);">{{s.n}}</span>
             <span class="heading-md">{{s.t}}</span>
@@ -313,10 +311,10 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
   <!-- Portal del cliente -->
   <section style="max-width: 1280px; margin: 0 auto; padding: 96px 32px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center;">
     <div class="rv" style="flex: 999 1 560px; min-width: 0; position: relative;">
-      <div style="border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 3 / 2;"><img src="./assets/310d0d93c0edd22fbec81e40657292bf.jpg" alt="Casa Ríos en obra gris con andamios" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
-      <div style="position: absolute; left: -12px; bottom: -28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 18px 22px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; max-width: 92%;">
+      <div style="border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 3 / 2;"><img class="fx-par" src="./assets/310d0d93c0edd22fbec81e40657292bf.jpg" alt="Casa Ríos en obra gris con andamios" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+      <div class="fx-glass" style="position: absolute; left: -12px; bottom: -28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 18px 22px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; max-width: 92%;">
         <svg width="64" height="64" viewBox="0 0 156 156" aria-hidden="true"><circle cx="78" cy="78" r="66" fill="none" stroke="var(--surface-alt)" stroke-width="16"></circle><circle cx="78" cy="78" r="66" fill="none" stroke="var(--accent)" stroke-width="16" stroke-dasharray="414.7" stroke-dashoffset="157.6" transform="rotate(-90 78 78)" style="animation: vkRing 1.8s .4s cubic-bezier(.2,.7,.2,1) both;"></circle></svg>
-        <div><div class="data-sm" style="color: var(--text-muted);">AVANCE</div><div class="display-md">62%</div></div>
+        <div><div class="data-sm" style="color: var(--text-muted);">AVANCE</div><div class="display-md fx-count">62%</div></div>
         <div style="width: 1px; align-self: stretch; background: var(--border);"></div>
         <div><div class="data-sm" style="color: var(--text-muted);">FASE</div><div class="heading-sm">Obra gris</div></div>
         <x-import component-from-global-scope="Vogelkop.Badge" tone="success">Al día</x-import>
@@ -338,18 +336,18 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 
   <!-- Diferenciales -->
   <section style="max-width: 1280px; margin: 0 auto; padding: 32px 32px 96px;">
-    <div class="rv" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;">
-      <div style="background: var(--bg); padding: 32px; display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+      <div class="rv fx-glass fx-spot" style="padding: 32px; border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 12px;">
         <x-import component-from-global-scope="Vogelkop.Icon" name="drafting-compass" size="{{ 28 }}"></x-import>
         <div class="heading-md">Diseño + ingeniería + obra</div>
         <div class="body-sm" style="color: var(--text-muted);">Un solo contrato y un solo responsable. Nada se pierde entre el plano y la obra.</div>
       </div>
-      <div style="background: var(--bg); padding: 32px; display: flex; flex-direction: column; gap: 12px;">
+      <div class="rv fx-glass fx-spot" style="padding: 32px; border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 12px;">
         <x-import component-from-global-scope="Vogelkop.Icon" name="receipt" size="{{ 28 }}"></x-import>
         <div class="heading-md">Precio cerrado por etapa</div>
         <div class="body-sm" style="color: var(--text-muted);">Sabes cuánto cuesta cada fase antes de empezarla. Pagas contra avance verificado.</div>
       </div>
-      <div style="background: var(--bg); padding: 32px; display: flex; flex-direction: column; gap: 12px;">
+      <div class="rv fx-glass fx-spot" style="padding: 32px; border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 12px;">
         <x-import component-from-global-scope="Vogelkop.Icon" name="clipboard-check" size="{{ 28 }}"></x-import>
         <div class="heading-md">Licencias de principio a fin</div>
         <div class="body-sm" style="color: var(--text-muted);">Radicamos y respondemos a la curaduría por ti. Tú solo firmas.</div>
@@ -358,17 +356,17 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
   </section>
 
   <!-- Confianza -->
-  <section aria-label="Resultados" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <section aria-label="Resultados" class="fx-band" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
     <div style="max-width: 1280px; margin: 0 auto; padding: 88px 32px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center;">
       <div class="rv" style="flex: 1 1 520px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 32px;">
         <sc-for list="{{stats}}" as="k" hint-placeholder-count="4">
           <div style="display: flex; flex-direction: column; gap: 8px; border-top: 2px solid var(--text); padding-top: 16px;">
-            <span class="vk-stat">{{k.v}}<span style="color: var(--accent);">{{k.u}}</span></span>
+            <span class="vk-stat fx-count">{{k.v}}<span style="color: var(--accent);">{{k.u}}</span></span>
             <span class="body-sm" style="color: var(--text-muted);">{{k.l}}</span>
           </div>
         </sc-for>
       </div>
-      <figure class="rv" style="flex: 1 1 420px; margin: 0; display: flex; flex-direction: column; gap: 24px;">
+      <figure class="rv fx-glass fx-spot" style="flex: 1 1 420px; margin: 0; display: flex; flex-direction: column; gap: 24px; padding: 36px; border-radius: var(--radius-lg);">
         <svg width="40" height="32" viewBox="0 0 40 32" aria-hidden="true"><path fill="var(--accent)" d="M0 32V19.2C0 8.6 5.4 2.2 16.2 0l1.6 4.4C11.6 6.4 8.6 10 8.4 15.2H16V32H0Zm22 0V19.2C22 8.6 27.4 2.2 38.2 0l1.6 4.4c-6.2 2-9.2 5.6-9.4 10.8H38V32H22Z"></path></svg>
         <blockquote class="heading-lg" style="margin: 0; font-weight: 500; line-height: 34px;">Vivimos en Bogotá y la casa la hicieron en Chía. Cada viernes veíamos las fotos y el avance en el portal; nunca tuvimos que ir a preguntar cómo iba la obra.</blockquote>
         <figcaption style="display: flex; gap: 14px; align-items: center;">
@@ -381,14 +379,14 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 
   <!-- Cierre / contacto -->
   <section id="contacto" style="background: var(--vk-black); color: var(--vk-cream); position: relative; overflow: hidden;">
-    <img src="./assets/be17bf3dd51c0c19ae9514984ac4746c.jpg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .22;">
+    <img class="fx-par" src="./assets/be17bf3dd51c0c19ae9514984ac4746c.jpg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .32; filter: blur(2px);">
     <div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 112px 32px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center;">
       <div class="rv" style="flex: 1 1 460px; display: flex; flex-direction: column; gap: 20px;">
         <div class="eyebrow" style="color: var(--vk-orange);">EMPECEMOS</div>
         <h2 class="display-xl vk-h1" style="margin: 0;">Tu proyecto empieza con <span style="color: var(--vk-orange);">una llamada.</span></h2>
         <p class="body-lg" style="margin: 0; color: var(--nav-muted);">Déjanos tu número. Un arquitecto te llama, revisa tu lote o tu idea y te dice cuánto cuesta y cuánto tarda.</p>
       </div>
-      <form class="rv" onSubmit="{{sendContact}}" style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 12px; background: rgba(18,16,14,.86); backdrop-filter: blur(10px); border: 1px solid var(--nav-line); border-radius: var(--radius-lg); padding: 28px;">
+      <form class="rv fx-glass-dark fx-spot" onSubmit="{{sendContact}}" style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 12px; background: rgba(18,16,14,.86); backdrop-filter: blur(10px); border: 1px solid var(--nav-line); border-radius: var(--radius-lg); padding: 28px;">
         <sc-if value="{{contactPending}}" hint-placeholder-val="{{ true }}">
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <label for="c-nombre" class="label" style="color: var(--vk-cream);">Nombre</label>
@@ -449,7 +447,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
     </div>
   </footer>
 
-  <a href="#contacto" class="vk-btn vk-btn--primary vk-btn--lg" style="position: fixed; right: 24px; bottom: 24px; z-index: 30; text-decoration: none; box-shadow: var(--shadow-lg); border-radius: var(--radius-full); animation: vkPulse 2.6s 3s ease-in-out infinite;">Cotiza gratis</a>
+  <a href="#contacto" class="vk-btn vk-btn--primary vk-btn--lg" style="position: fixed; right: 24px; bottom: 24px; z-index: 30; text-decoration: none; box-shadow: 0 12px 40px rgba(242,146,0,.45), inset 0 1px 0 rgba(255,255,255,.5); border-radius: var(--radius-full); animation: vkPulse 2.6s 3s ease-in-out infinite;">Cotiza gratis</a>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6200}}'>

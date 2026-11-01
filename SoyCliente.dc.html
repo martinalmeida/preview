@@ -28,6 +28,8 @@
 <script src="ds/vogelkop/components/bundle.js"></script>
 <script src="./assets/fb52fda4e33de0cb2643d2c8c4f269ec.js"></script>
 <script src="./assets/4cae64bf54ed648ecbfcb370749adaf7.js"></script>
+<link rel="stylesheet" href="assets/fx.css">
+<script src="assets/fx.js"></script>
 </head>
 <body>
 <x-dc>
@@ -53,7 +55,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-seg{all:unset;box-sizing:border-box;cursor:pointer;height:36px;padding:0 14px;border-radius:4px;font:600 12px/36px Outfit,system-ui,sans-serif;color:#f4efe9;letter-spacing:.02em}
 .vk-seg.on{background:#f4efe9;color:#12100e}
 .vk-seg:focus-visible{outline:2px solid #f29200;outline-offset:2px}
-@keyframes vkUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes vkUp{from{opacity:0;transform:translateY(28px);filter:blur(12px)}to{opacity:1;transform:none;filter:none}}
 @keyframes vkFade{from{opacity:0}to{opacity:1}}
 @keyframes vkLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes vkMarq{to{transform:translateX(-50%)}}
@@ -68,10 +70,6 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-marq:hover{animation-play-state:paused}
 .vk-knob{animation:vkPulse 2.2s ease-in-out infinite,vkNudge 1.6s 1.2s ease-in-out 2}
 .vk-live{width:8px;height:8px;border-radius:99px;background:#f29200;animation:vkDot 1.6s ease-in-out infinite}
-@supports (animation-timeline: view()){
-  .rv{animation:vkUp linear both;animation-timeline:view();animation-range:entry 5% entry 95%}
-  .rv-line{transform-origin:left;animation:vkLine linear both;animation-timeline:view();animation-range:entry 20% entry 100%}
-}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .vk-burger{all:unset;box-sizing:border-box;display:none;width:44px;height:44px;border-radius:4px;place-items:center;cursor:pointer;color:#12100e}
 .vk-burger:focus-visible{outline:2px solid #f29200;outline-offset:2px}
@@ -90,7 +88,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-glass{background:rgba(18,16,14,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#f4efe9;border-radius:4px}
 .vk-iconbtn{all:unset;box-sizing:border-box;display:grid;place-items:center;width:42px;height:42px;cursor:pointer;background:rgba(18,16,14,.78);border-radius:6px;color:#f4efe9}
 .vk-iconbtn:hover{background:rgba(18,16,14,.92)}.vk-iconbtn:focus-visible{outline:2px solid #f29200;outline-offset:2px}
-.vk-pitem{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:14px;align-items:center;padding:10px;border-radius:8px;border:1px solid #ddd4c7;background:#fff;transition:border-color .2s,box-shadow .2s,transform .2s}
+.vk-pitem{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:14px;align-items:center;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.75);background:linear-gradient(135deg,rgba(255,255,255,.7),rgba(255,255,255,.4));backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);transition:border-color .2s,box-shadow .2s,transform .2s}
 .vk-pitem:hover{border-color:#8c8173;transform:translateY(-1px)}
 .vk-pitem.on{border-color:#f29200;box-shadow:0 0 0 1px #f29200,0 8px 24px rgba(18,16,14,.12)}
 .vk-pitem:focus-visible{outline:2px solid #12100e;outline-offset:2px}
@@ -98,7 +96,8 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-stepbtn .data-sm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .vk-stepbtn:focus-visible{outline:2px solid #f29200;outline-offset:2px}
 .vk-stage:fullscreen{border-radius:0!important}
-.vk-card{background:#fff;border:1px solid #ddd4c7;border-radius:8px}
+.vk-card{border-radius:8px;background:linear-gradient(135deg,rgba(255,255,255,.74),rgba(255,255,255,.42));backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid rgba(255,255,255,.75);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 18px 48px rgba(18,16,14,.07)}
+.vk-table-wrap{background:rgba(255,255,255,.55)!important;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-color:rgba(255,255,255,.75)!important}
 .vk-bar{height:8px;border-radius:99px;background:#ebe4da;overflow:hidden}
 .vk-bar>span{display:block;height:100%;border-radius:99px;background:#f29200;transform-origin:left;animation:vkLine 1.2s .2s cubic-bezier(.2,.7,.2,1) both}
 .vk-thumb{all:unset;cursor:pointer;display:block;position:relative;border-radius:8px;overflow:hidden;aspect-ratio:4/3}
@@ -112,7 +111,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 @media (max-width:760px){.display-lg{font-size:32px!important;line-height:38px!important}.display-md{font-size:24px!important;line-height:30px!important}.vk-phwrap{overflow-x:auto}.vk-phwrap .vk-phases{min-width:600px}.vk-plist{max-width:none!important;flex-direction:row!important;overflow-x:auto;flex-basis:100%!important}.vk-pitem{flex:0 0 260px}.vk-stage{min-height:480px!important}}
 </style>
 </helmet>
-<div style="font-family: var(--font-sans); color: var(--text); background: var(--bg); min-height: 100vh; overflow-x: hidden;">
+<div class="vk-app" style="font-family: var(--font-sans); color: var(--text); min-height: 100vh; overflow-x: clip;">
 
   <header style="position: sticky; top: 0; z-index: 20; background: rgba(244,239,233,0.88); backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid var(--border);">
     <div class="vk-hdr" style="max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
@@ -147,7 +146,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
         <div class="eyebrow" style="color: var(--accent-text);">PORTAL DEL CLIENTE</div>
         <h1 class="display-lg" style="margin: 0;">Tu obra, <span style="color: var(--accent-text);">en tu bolsillo.</span></h1>
         <p class="body-lg" style="margin: 0; color: var(--text-muted);">Ingresa el código de obra que te entregó tu arquitecto. Lo encuentras en tu contrato y en el correo de bienvenida.</p>
-        <form onSubmit="{{login}}" class="vk-card" style="padding: 28px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow-md);">
+        <form onSubmit="{{login}}" class="vk-card fx-spot" style="padding: 28px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow-md);">
           <label for="codigo" class="label">Código de obra</label>
           <input id="codigo" value="{{code}}" onChange="{{onCode}}" placeholder="VK-0000-XXXX" maxlength="12" autocomplete="off" spellcheck="false" style="height: 56px; box-sizing: border-box; border-radius: var(--radius-md); border: 1px solid {{codeBorder}}; background: var(--surface); color: var(--text); padding: 0 18px; font-family: var(--font-mono); font-size: 20px; letter-spacing: .14em; text-transform: uppercase; outline: none; box-shadow: {{codeShadow}}; transition: border-color .2s, box-shadow .2s;">
           <sc-if value="{{loginErr}}" hint-placeholder-val="{{ false }}">
@@ -162,9 +161,9 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
         <div class="body-sm" style="display: flex; gap: 8px; align-items: center; color: var(--text-muted);"><x-import component-from-global-scope="Vogelkop.Icon" name="circle-check" size="{{ 16 }}"></x-import>Acceso cifrado. Solo tú y tu arquitecto ven la información de tu obra.</div>
       </div>
       <div class="vk-in d2 vk-hide-sm" style="flex: 999 1 520px; min-width: 0; position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 620px;">
-        <img src="./assets/310d0d93c0edd22fbec81e40657292bf.jpg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <img class="fx-par" src="./assets/310d0d93c0edd22fbec81e40657292bf.jpg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
         <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.7), rgba(0,0,0,0) 55%);"></div>
-        <div class="vk-card" style="position: absolute; left: 24px; right: 24px; bottom: 24px; padding: 20px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; box-shadow: var(--shadow-lg);">
+        <div class="vk-card" style="position: absolute; left: 24px; right: 24px; bottom: 24px; background: rgba(255,255,255,.55); padding: 20px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; box-shadow: var(--shadow-lg);">
           <div><div class="data-sm" style="color: var(--text-muted);">FOTOS</div><div class="heading-md">Cada semana</div></div>
           <div><div class="data-sm" style="color: var(--text-muted);">AVANCE</div><div class="heading-md">Por partida</div></div>
           <div><div class="data-sm" style="color: var(--text-muted);">PAGOS</div><div class="heading-md">Contra avance</div></div>
@@ -177,7 +176,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
   <sc-if value="{{loggedIn}}" hint-placeholder-val="{{ false }}">
     <div>
       <!-- Barra del proyecto -->
-      <section style="background: var(--vk-black); color: var(--vk-cream);">
+      <section style="background: linear-gradient(180deg, rgba(0,0,0,.94), rgba(18,16,14,.88)); backdrop-filter: blur(20px); color: var(--vk-cream);">
         <div style="max-width: 1280px; margin: 0 auto; padding: 32px 32px 0; display: flex; flex-direction: column; gap: 24px;">
           <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
             <div style="display: flex; gap: 16px; align-items: center;">
@@ -208,19 +207,19 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
         <sc-if value="{{tabResumen}}" hint-placeholder-val="{{ true }}">
           <div style="display: flex; flex-direction: column; gap: 24px;">
             <div class="vk-in" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-              <div class="vk-card" style="padding: 20px; display: flex; gap: 16px; align-items: center;">
+              <div class="vk-card fx-spot" style="padding: 20px; display: flex; gap: 16px; align-items: center;">
                 <svg width="72" height="72" viewBox="0 0 156 156" aria-hidden="true"><circle cx="78" cy="78" r="66" fill="none" stroke="var(--surface-alt)" stroke-width="16"></circle><circle cx="78" cy="78" r="66" fill="none" stroke="var(--accent)" stroke-width="16" stroke-dasharray="414.7" stroke-dashoffset="157.6" stroke-linecap="round" transform="rotate(-90 78 78)" style="animation: vkRing 1.8s .2s cubic-bezier(.2,.7,.2,1) both;"></circle></svg>
-                <div><div class="data-sm" style="color: var(--text-muted);">AVANCE GENERAL</div><div class="display-md">62%</div><div class="body-sm" style="color: var(--success);">+4% esta semana</div></div>
+                <div><div class="data-sm" style="color: var(--text-muted);">AVANCE GENERAL</div><div class="display-md fx-count">62%</div><div class="body-sm" style="color: var(--success);">+4% esta semana</div></div>
               </div>
-              <div class="vk-card" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;">
+              <div class="vk-card fx-spot" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;">
                 <div class="data-sm" style="color: var(--text-muted);">FASE ACTUAL</div><div class="heading-lg">Obra gris</div>
                 <div class="body-sm" style="color: var(--text-muted);">Mampostería segundo piso</div>
               </div>
-              <div class="vk-card" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;">
+              <div class="vk-card fx-spot" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;">
                 <div class="data-sm" style="color: var(--text-muted);">PRÓXIMO HITO</div><div class="heading-lg">Fundida de cubierta</div>
                 <div class="body-sm" style="color: var(--text-muted);">Viernes 13 de noviembre</div>
               </div>
-              <div class="vk-card" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;">
+              <div class="vk-card fx-spot" style="padding: 20px; display: flex; flex-direction: column; gap: 6px;">
                 <div class="data-sm" style="color: var(--text-muted);">ENTREGA ESTIMADA</div><div class="heading-lg">Junio 2027</div>
                 <div class="body-sm" style="color: var(--success);">En fecha · 0 días de atraso</div>
               </div>
@@ -245,7 +244,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
                   <x-import component-from-global-scope="Vogelkop.PhaseTracker" phases="{{phases}}" current="{{ 3 }}"></x-import>
                 </div>
               </div>
-              <div class="vk-card vk-in d2" style="flex: 1 1 340px; padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+              <div class="vk-card fx-spot vk-in d2" style="flex: 1 1 340px; padding: 24px; display: flex; flex-direction: column; gap: 18px;">
                 <div style="display: flex; justify-content: space-between; align-items: baseline;"><div class="heading-md">Avance por partida</div><span class="data-sm" style="color: var(--text-muted);">CORTE 30 OCT</span></div>
                 <sc-for list="{{partidas}}" as="r" hint-placeholder-count="6">
                   <div style="display: flex; flex-direction: column; gap: 8px;">
@@ -301,12 +300,12 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
         <sc-if value="{{tabPresupuesto}}" hint-placeholder-val="{{ false }}">
           <div class="vk-in" style="display: flex; flex-direction: column; gap: 24px;">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-              <div class="vk-card" style="padding: 20px;"><div class="data-sm" style="color: var(--text-muted);">VALOR DEL CONTRATO</div><div class="display-md">$1.284 M</div><div class="body-sm" style="color: var(--text-muted);">Precio cerrado · 5 etapas</div></div>
-              <div class="vk-card" style="padding: 20px;"><div class="data-sm" style="color: var(--text-muted);">EJECUTADO</div><div class="display-md">$796 M</div><div class="body-sm" style="color: var(--text-muted);">62% del contrato</div></div>
-              <div class="vk-card" style="padding: 20px;"><div class="data-sm" style="color: var(--text-muted);">PAGADO</div><div class="display-md">$770 M</div><div class="body-sm" style="color: var(--success);">Sin saldos vencidos</div></div>
-              <div class="vk-card" style="padding: 20px;"><div class="data-sm" style="color: var(--text-muted);">PRÓXIMO PAGO</div><div class="display-md">$192 M</div><div class="body-sm" style="color: var(--text-muted);">Contra fundida de cubierta</div></div>
+              <div class="vk-card fx-spot" style="padding: 20px;"><div class="data-sm" style="color: var(--text-muted);">VALOR DEL CONTRATO</div><div class="display-md fx-count">$1.284 M</div><div class="body-sm" style="color: var(--text-muted);">Precio cerrado · 5 etapas</div></div>
+              <div class="vk-card fx-spot" style="padding: 20px;"><div class="data-sm" style="color: var(--text-muted);">EJECUTADO</div><div class="display-md fx-count">$796 M</div><div class="body-sm" style="color: var(--text-muted);">62% del contrato</div></div>
+              <div class="vk-card fx-spot" style="padding: 20px;"><div class="data-sm" style="color: var(--text-muted);">PAGADO</div><div class="display-md fx-count">$770 M</div><div class="body-sm" style="color: var(--success);">Sin saldos vencidos</div></div>
+              <div class="vk-card fx-spot" style="padding: 20px;"><div class="data-sm" style="color: var(--text-muted);">PRÓXIMO PAGO</div><div class="display-md fx-count">$192 M</div><div class="body-sm" style="color: var(--text-muted);">Contra fundida de cubierta</div></div>
             </div>
-            <div class="vk-card" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+            <div class="vk-card fx-spot" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
               <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;"><div class="heading-md">Ejecución del presupuesto</div><span class="body-sm" style="color: var(--text-muted);">Ejecutado vs. contratado</span></div>
               <div style="height: 14px; border-radius: 99px; background: var(--surface-alt); overflow: hidden; display: flex;">
                 <span style="width: 60%; background: var(--vk-black);"></span><span style="width: 2%; background: var(--accent);"></span>
@@ -326,7 +325,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
           <div class="vk-in" style="display: flex; flex-direction: column; gap: 16px; max-width: 880px;">
             <div><div class="heading-lg">Observaciones y aprobaciones</div><div class="body-sm" style="color: var(--text-muted);">Decisiones de obra que requieren tu visto bueno. Todo queda registrado con fecha y firma.</div></div>
             <sc-for list="{{obs}}" as="o" hint-placeholder-count="3">
-              <article class="vk-card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px; border-left: 3px solid {{o.edge}};">
+              <article class="vk-card fx-spot" style="padding: 24px; display: flex; flex-direction: column; gap: 14px; border-left: 3px solid {{o.edge}};">
                 <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center;">
                   <div style="display: flex; gap: 12px; align-items: center;">
                     <x-import component-from-global-scope="Vogelkop.Avatar" name="{{o.quien}}" size="{{ 36 }}"></x-import>

@@ -28,6 +28,8 @@
 <script src="ds/vogelkop/components/bundle.js"></script>
 <script src="./assets/fb52fda4e33de0cb2643d2c8c4f269ec.js"></script>
 <script src="./assets/4cae64bf54ed648ecbfcb370749adaf7.js"></script>
+<link rel="stylesheet" href="assets/fx.css">
+<script src="assets/fx.js"></script>
 </head>
 <body>
 <x-dc>
@@ -53,7 +55,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-seg{all:unset;box-sizing:border-box;cursor:pointer;height:36px;padding:0 14px;border-radius:4px;font:600 12px/36px Outfit,system-ui,sans-serif;color:#f4efe9;letter-spacing:.02em}
 .vk-seg.on{background:#f4efe9;color:#12100e}
 .vk-seg:focus-visible{outline:2px solid #f29200;outline-offset:2px}
-@keyframes vkUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes vkUp{from{opacity:0;transform:translateY(28px);filter:blur(12px)}to{opacity:1;transform:none;filter:none}}
 @keyframes vkFade{from{opacity:0}to{opacity:1}}
 @keyframes vkLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes vkMarq{to{transform:translateX(-50%)}}
@@ -68,10 +70,6 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-marq:hover{animation-play-state:paused}
 .vk-knob{animation:vkPulse 2.2s ease-in-out infinite,vkNudge 1.6s 1.2s ease-in-out 2}
 .vk-live{width:8px;height:8px;border-radius:99px;background:#f29200;animation:vkDot 1.6s ease-in-out infinite}
-@supports (animation-timeline: view()){
-  .rv{animation:vkUp linear both;animation-timeline:view();animation-range:entry 5% entry 95%}
-  .rv-line{transform-origin:left;animation:vkLine linear both;animation-timeline:view();animation-range:entry 20% entry 100%}
-}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .vk-burger{all:unset;box-sizing:border-box;display:none;width:44px;height:44px;border-radius:4px;place-items:center;cursor:pointer;color:#12100e}
 .vk-burger:focus-visible{outline:2px solid #f29200;outline-offset:2px}
@@ -90,7 +88,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-glass{background:rgba(18,16,14,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#f4efe9;border-radius:4px}
 .vk-iconbtn{all:unset;box-sizing:border-box;display:grid;place-items:center;width:42px;height:42px;cursor:pointer;background:rgba(18,16,14,.78);border-radius:6px;color:#f4efe9}
 .vk-iconbtn:hover{background:rgba(18,16,14,.92)}.vk-iconbtn:focus-visible{outline:2px solid #f29200;outline-offset:2px}
-.vk-pitem{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:14px;align-items:center;padding:10px;border-radius:8px;border:1px solid #ddd4c7;background:#fff;transition:border-color .2s,box-shadow .2s,transform .2s}
+.vk-pitem{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:14px;align-items:center;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.75);background:linear-gradient(135deg,rgba(255,255,255,.7),rgba(255,255,255,.4));backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);transition:border-color .2s,box-shadow .2s,transform .2s}
 .vk-pitem:hover{border-color:#8c8173;transform:translateY(-1px)}
 .vk-pitem.on{border-color:#f29200;box-shadow:0 0 0 1px #f29200,0 8px 24px rgba(18,16,14,.12)}
 .vk-pitem:focus-visible{outline:2px solid #12100e;outline-offset:2px}
@@ -98,7 +96,8 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-stepbtn .data-sm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .vk-stepbtn:focus-visible{outline:2px solid #f29200;outline-offset:2px}
 .vk-stage:fullscreen{border-radius:0!important}
-.vk-card{background:#fff;border:1px solid #ddd4c7;border-radius:8px}
+.vk-card{border-radius:8px;background:linear-gradient(135deg,rgba(255,255,255,.74),rgba(255,255,255,.42));backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid rgba(255,255,255,.75);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 18px 48px rgba(18,16,14,.07)}
+.vk-table-wrap{background:rgba(255,255,255,.55)!important;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-color:rgba(255,255,255,.75)!important}
 .vk-bar{height:8px;border-radius:99px;background:#ebe4da;overflow:hidden}
 .vk-bar>span{display:block;height:100%;border-radius:99px;background:#f29200;transform-origin:left;animation:vkLine 1.2s .2s cubic-bezier(.2,.7,.2,1) both}
 .vk-thumb{all:unset;cursor:pointer;display:block;position:relative;border-radius:8px;overflow:hidden;aspect-ratio:4/3}
@@ -112,7 +111,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 @media (max-width:760px){.display-lg{font-size:32px!important;line-height:38px!important}.display-md{font-size:24px!important;line-height:30px!important}.vk-phwrap{overflow-x:auto}.vk-phwrap .vk-phases{min-width:600px}.vk-plist{max-width:none!important;flex-direction:row!important;overflow-x:auto;flex-basis:100%!important}.vk-pitem{flex:0 0 260px}.vk-stage{min-height:480px!important}}
 </style>
 </helmet>
-<div style="font-family: var(--font-sans); color: var(--text); background: var(--bg); min-height: 100vh; overflow-x: hidden;">
+<div class="vk-app" style="font-family: var(--font-sans); color: var(--text); min-height: 100vh; overflow-x: clip;">
 
   <header style="position: sticky; top: 0; z-index: 20; background: rgba(244,239,233,0.88); backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid var(--border);">
     <div class="vk-hdr" style="max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
@@ -148,9 +147,9 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       <p class="body-lg vk-in d2" style="margin: 0; color: var(--text-muted);">Gira el modelo, recorre cada etapa de la construcción y entra a los espacios. Así se ven nuestras obras en el portal de cada cliente.</p>
     </div>
     <div class="vk-in d3" style="display: flex; gap: 24px;">
-      <div><div class="data-sm" style="color: var(--text-muted);">PROYECTOS</div><div class="display-md">04</div></div>
+      <div><div class="data-sm" style="color: var(--text-muted);">PROYECTOS</div><div class="display-md fx-count">04</div></div>
       <div style="width: 1px; background: var(--border);"></div>
-      <div><div class="data-sm" style="color: var(--text-muted);">PUNTOS DE VISTA</div><div class="display-md">15</div></div>
+      <div><div class="data-sm" style="color: var(--text-muted);">PUNTOS DE VISTA</div><div class="display-md fx-count">15</div></div>
     </div>
   </section>
 
@@ -158,7 +157,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
   <section style="max-width: 1280px; margin: 0 auto; padding: 0 32px 64px; display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch;">
     <aside aria-label="Proyectos" class="vk-plist vk-in d2" style="flex: 1 1 280px; max-width: 340px; display: flex; flex-direction: column; gap: 12px;">
       <sc-for list="{{projects}}" as="p" hint-placeholder-count="4">
-        <button class="{{p.cls}}" onClick="{{p.pick}}" aria-pressed="{{p.on}}">
+        <button class="{{p.cls}} fx-spot" onClick="{{p.pick}}" aria-pressed="{{p.on}}">
           <img src="{{p.thumb}}" alt="" style="width: 76px; height: 76px; object-fit: cover; border-radius: var(--radius-md); flex: none;">
           <span style="display: flex; flex-direction: column; gap: 4px; min-width: 0; text-align: left;">
             <span class="heading-sm">{{p.name}}</span>
@@ -167,7 +166,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
           </span>
         </button>
       </sc-for>
-      <div class="vk-hide-sm" style="margin-top: auto; background: var(--surface-alt); border-radius: var(--radius-lg); padding: 18px; display: flex; flex-direction: column; gap: 8px;">
+      <div class="vk-hide-sm fx-glass" style="margin-top: auto; background: var(--surface-alt); border-radius: var(--radius-lg); padding: 18px; display: flex; flex-direction: column; gap: 8px;">
         <div class="heading-sm">Cómo usar el visor</div>
         <div class="body-sm" style="color: var(--text-muted);">Arrastra para girar · Rueda para acercar · En modo <strong>Recorrido</strong> toca los círculos naranja del suelo para caminar.</div>
       </div>
@@ -231,7 +230,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
   </section>
 
   <!-- Ficha del proyecto -->
-  <section style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <section class="fx-band" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
     <div style="max-width: 1280px; margin: 0 auto; padding: 80px 32px; display: flex; flex-wrap: wrap; gap: 56px;">
       <div class="rv" style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 20px;">
         <div class="eyebrow" style="color: var(--accent-text);">FICHA DEL PROYECTO</div>
@@ -244,26 +243,26 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
         </div>
       </div>
       <div class="rv" style="flex: 999 1 560px; min-width: 0; display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; min-height: 460px;">
-        <img src="{{cur.g1}}" alt="{{cur.name}}, vista principal" style="grid-row: span 2; width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-lg); display: block;">
-        <img src="{{cur.g2}}" alt="{{cur.name}}, vista secundaria" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-lg); display: block;">
-        <img src="{{cur.g3}}" alt="{{cur.name}}, detalle" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-lg); display: block;">
+        <div style="grid-row: span 2; border-radius: var(--radius-lg); overflow: hidden;"><img class="fx-par" src="{{cur.g1}}" alt="{{cur.name}}, vista principal" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+        <div style="border-radius: var(--radius-lg); overflow: hidden;"><img class="fx-par" src="{{cur.g2}}" alt="{{cur.name}}, vista secundaria" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+        <div style="border-radius: var(--radius-lg); overflow: hidden;"><img class="fx-par" src="{{cur.g3}}" alt="{{cur.name}}, detalle" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
       </div>
     </div>
   </section>
 
   <!-- Beneficios -->
   <section style="max-width: 1280px; margin: 0 auto; padding: 80px 32px;">
-    <div class="rv" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px;">
-      <div style="display: flex; flex-direction: column; gap: 12px;"><x-import component-from-global-scope="Vogelkop.Icon" name="layers" size="{{ 28 }}"></x-import><div class="heading-md">Etapa por etapa</div><div class="body-sm" style="color: var(--text-muted);">Del lote vacío a la entrega: ves exactamente qué se construye en cada fase y qué estás pagando.</div></div>
-      <div style="display: flex; flex-direction: column; gap: 12px;"><x-import component-from-global-scope="Vogelkop.Icon" name="map-pin" size="{{ 28 }}"></x-import><div class="heading-md">Recorrido a escala real</div><div class="body-sm" style="color: var(--text-muted);">Camina a la altura de los ojos por accesos, salas y terrazas antes de aprobar el diseño.</div></div>
-      <div style="display: flex; flex-direction: column; gap: 12px;"><x-import component-from-global-scope="Vogelkop.Icon" name="image" size="{{ 28 }}"></x-import><div class="heading-md">Luz de día y de tarde</div><div class="body-sm" style="color: var(--text-muted);">Compara cómo entra el sol y cómo se ve la fachada iluminada al atardecer.</div></div>
-      <div style="display: flex; flex-direction: column; gap: 12px;"><x-import component-from-global-scope="Vogelkop.Icon" name="users" size="{{ 28 }}"></x-import><div class="heading-md">Compártelo con tu familia</div><div class="body-sm" style="color: var(--text-muted);">Cada cliente tiene su modelo en el portal, disponible desde el celular, sin instalar nada.</div></div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+      <div class="rv fx-glass fx-spot" style="display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: var(--radius-lg);"><x-import component-from-global-scope="Vogelkop.Icon" name="layers" size="{{ 28 }}"></x-import><div class="heading-md">Etapa por etapa</div><div class="body-sm" style="color: var(--text-muted);">Del lote vacío a la entrega: ves exactamente qué se construye en cada fase y qué estás pagando.</div></div>
+      <div class="rv fx-glass fx-spot" style="display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: var(--radius-lg);"><x-import component-from-global-scope="Vogelkop.Icon" name="map-pin" size="{{ 28 }}"></x-import><div class="heading-md">Recorrido a escala real</div><div class="body-sm" style="color: var(--text-muted);">Camina a la altura de los ojos por accesos, salas y terrazas antes de aprobar el diseño.</div></div>
+      <div class="rv fx-glass fx-spot" style="display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: var(--radius-lg);"><x-import component-from-global-scope="Vogelkop.Icon" name="image" size="{{ 28 }}"></x-import><div class="heading-md">Luz de día y de tarde</div><div class="body-sm" style="color: var(--text-muted);">Compara cómo entra el sol y cómo se ve la fachada iluminada al atardecer.</div></div>
+      <div class="rv fx-glass fx-spot" style="display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: var(--radius-lg);"><x-import component-from-global-scope="Vogelkop.Icon" name="users" size="{{ 28 }}"></x-import><div class="heading-md">Compártelo con tu familia</div><div class="body-sm" style="color: var(--text-muted);">Cada cliente tiene su modelo en el portal, disponible desde el celular, sin instalar nada.</div></div>
     </div>
   </section>
 
   <!-- CTA -->
   <section style="max-width: 1280px; margin: 0 auto; padding: 0 32px 96px;">
-    <div class="rv" style="background: var(--vk-black); color: var(--vk-cream); border-radius: var(--radius-lg); padding: 48px; display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; position: relative; overflow: hidden;">
+    <div class="rv fx-glass-dark fx-spot" style="background: var(--vk-black); color: var(--vk-cream); border-radius: var(--radius-lg); padding: 48px; display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; position: relative; overflow: hidden;">
       <img src="./assets/brand/emblem.png" alt="" aria-hidden="true" style="position: absolute; right: -60px; top: -40px; width: 300px; opacity: .12;">
       <div style="position: relative; display: flex; flex-direction: column; gap: 12px; max-width: 640px;">
         <h2 class="display-md" style="margin: 0;">¿Tienes un lote o una idea? <span style="color: var(--vk-orange);">Modelamos tu proyecto.</span></h2>
