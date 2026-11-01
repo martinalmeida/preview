@@ -13,7 +13,7 @@
   FX.whenReady = function (cb) { if (FX.ready) cb(); else FX.onReady.push(cb); };
   function markReady() { if (FX.ready) return; FX.ready = true; FX.onReady.splice(0).forEach(function (f) { f(); }); }
   window.addEventListener('load', function () {
-    var go = function () { setTimeout(markReady, lite ? 400 : 0); };
+    var go = function () { setTimeout(markReady, lite ? 800 : 0); };
     if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 1500 }); else setTimeout(go, 200);
   });
 
@@ -64,7 +64,7 @@
       })(t0);
     }
 
-    var pars = [], useParallax = !lite && !reduce;
+    var pars = [], useParallax = !reduce, parAmp = lite ? -4 : -6;
     function scan(root) {
       if (!root.querySelectorAll) return;
       root.querySelectorAll('.rv, .rv-line, .fx-count').forEach(function (el) {
@@ -89,23 +89,44 @@
       if (!hd || !hd.isConnected) { hd = document.querySelector('header'); scrolled = null; }
       var s = y > 12;
       if (hd && s !== scrolled) { scrolled = s; hd.classList.toggle('fx-scrolled', s); }
+      // primero se leen todas las posiciones y después se escribe: evita recalcular layout por cada imagen
+      var moves = [];
       for (var i = 0; i < pars.length; i++) {
-        var el = pars[i], r = el.parentNode.getBoundingClientRect();
-        if (r.bottom < -100 || r.top > vh + 100) continue;
-        el.style.translate = '0 ' + (((r.top + r.height / 2 - vh / 2) / vh) * -6).toFixed(2) + '%';
+        var r = pars[i].parentNode.getBoundingClientRect();
+        if (r.bottom > -100 && r.top < vh + 100) moves.push([pars[i], ((r.top + r.height / 2 - vh / 2) / vh) * parAmp]);
       }
+      for (var k = 0; k < moves.length; k++) moves[k][0].style.translate = '0 ' + moves[k][1].toFixed(2) + '%';
     }
     function req() { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }
     window.addEventListener('scroll', req, { passive: true });
     window.addEventListener('resize', req, { passive: true });
     req();
 
-    // brillo que sigue al cursor (solo con mouse)
-    if (!lite) document.addEventListener('pointermove', function (e) {
-      var el = e.target.closest && e.target.closest('.fx-spot'); if (!el) return;
+    // brillo: sigue al cursor con mouse; con el dedo aparece donde se toca y se desvanece
+    function spot(e) {
+      var el = e.target.closest && e.target.closest('.fx-spot'); if (!el) return null;
       var r = el.getBoundingClientRect();
       el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
       el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      return el;
+    }
+    document.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') spot(e); }, { passive: true });
+    document.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse') return;
+      var el = spot(e); if (!el) return;
+      el.classList.add('fx-tap'); clearTimeout(el.__fxt);
+      el.__fxt = setTimeout(function () { el.classList.remove('fx-tap'); }, 450);
     }, { passive: true });
+
+    // línea de fases del portal: en pantallas angostas se desplaza hasta la fase actual
+    function centerPhase(root) {
+      if (!root.querySelectorAll) return;
+      root.querySelectorAll('.vk-phwrap').forEach(function (w) {
+        requestAnimationFrame(function () { var c = w.querySelector('.is-current'); if (c && w.scrollWidth > w.clientWidth) w.scrollLeft = c.offsetLeft - (w.clientWidth - c.offsetWidth) / 2; });
+      });
+    }
+    centerPhase(document);
+    new MutationObserver(function (muts) { muts.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.nodeType === 1) centerPhase(n); }); }); })
+      .observe(document.body, { childList: true, subtree: true });
   });
 })();

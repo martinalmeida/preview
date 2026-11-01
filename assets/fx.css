@@ -51,9 +51,12 @@ header.fx-scrolled .vk-hdr { padding-top: 8px !important; padding-bottom: 8px !i
 
 /* botones: brillo que cruza al pasar el cursor */
 .vk-btn--primary { position: relative; overflow: hidden; }
-.vk-btn--primary::before { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; pointer-events: none;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); transform: skewX(-20deg); transition: left .7s cubic-bezier(.2,.7,.2,1); }
-.vk-btn--primary:hover::before { left: 130%; }
+.vk-btn--primary::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 40%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); transform: translateX(-160%) skewX(-20deg); transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+.vk-btn--primary:hover::before { transform: translateX(360%) skewX(-20deg); }
+/* destello periódico en los llamados a la acción principales */
+.fx-cta::before, .fx-shine::before { animation: fxShine 5s 2s cubic-bezier(.2,.7,.2,1) infinite; }
+@keyframes fxShine { 0%, 72% { transform: translateX(-160%) skewX(-20deg); } 88%, 100% { transform: translateX(360%) skewX(-20deg); } }
 
 /* pulsos: solo transform/opacity (las animaciones de box-shadow repintan en cada cuadro) */
 .vk-knob { animation: vkNudge 1.6s 1.2s ease-in-out 2 !important; }
@@ -72,26 +75,27 @@ html.fx .rv-line.fx-in { transform: scaleX(1); }
 /* parallax: la imagen se agranda un poco y se desplaza con el scroll */
 .fx-par { scale: 1.14; will-change: translate; }
 
-/* ---------- modo ligero (teléfonos y pantallas táctiles) ----------
-   backdrop-filter re-difumina lo que hay detrás en cada cuadro: en móvil se reemplaza por fondos
-   casi opacos que se ven igual sobre el fondo crema, y se conserva solo en el header. */
-html.fx-lite .fx-ambient i { animation: none; will-change: auto; }
-html.fx-lite .fx-ambient::after { display: none; }
-html.fx-lite .fx-glass, html.fx-lite .vk-card, html.fx-lite .vk-pitem, html.fx-lite .vk-table-wrap {
-  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
-  background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(255,255,255,.74)) !important; }
-html.fx-lite .fx-band { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: rgba(255,255,255,.55) !important; }
-html.fx-lite .fx-glass-dark { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: linear-gradient(135deg, rgba(30,27,23,.97), rgba(10,9,8,.95)) !important; }
-html.fx-lite .vk-glass, html.fx-lite .fx-chip { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: rgba(18,16,14,.72) !important; box-shadow: none; }
-html.fx-lite [style*="backdrop-filter"]:not(header) { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
-html.fx-lite header, html.fx-lite header.fx-scrolled { backdrop-filter: blur(14px) saturate(1.4) !important; -webkit-backdrop-filter: blur(14px) saturate(1.4) !important; }
-html.fx-lite header.fx-scrolled { background: rgba(244,239,233,.82) !important; }
-html.fx-lite .fx-spot::after, html.fx-lite .vk-btn--primary::before { display: none; }
-html.fx-lite .fx-par { scale: 1; will-change: auto; }
-html.fx.fx-lite .rv { filter: none; transform: translateY(24px); transition: opacity .6s ease-out, transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: var(--fx-d, 0ms); }
-html.fx.fx-lite .rv.fx-in { transform: none; }
-html.fx-lite .vk-in { animation-name: fxUpLite; }
-@keyframes fxUpLite { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+/* ---------- móvil (pantallas chicas y táctiles) ----------
+   Mismos efectos que en escritorio, con radios de desenfoque más cortos (el costo de backdrop-filter
+   crece con el radio) y movimientos más sutiles. Los efectos de cursor responden al toque. */
+html.fx-lite .fx-ambient i:nth-child(1) { width: 110vw; height: 110vw; left: -45vw; top: -20vw; }
+html.fx-lite .fx-ambient i:nth-child(2) { width: 95vw; height: 95vw; right: -40vw; top: 35vh; }
+html.fx-lite .fx-ambient i:nth-child(3) { width: 90vw; height: 90vw; left: 10vw; bottom: -40vw; }
+html.fx-lite .fx-glass, html.fx-lite .vk-card, html.fx-lite .vk-pitem {
+  backdrop-filter: blur(12px) saturate(1.5) !important; -webkit-backdrop-filter: blur(12px) saturate(1.5) !important;
+  background: linear-gradient(135deg, rgba(255,255,255,.8), rgba(255,255,255,.5)) !important; }
+html.fx-lite .fx-band { backdrop-filter: blur(12px) saturate(1.3) !important; -webkit-backdrop-filter: blur(12px) saturate(1.3) !important; background: rgba(255,255,255,.4) !important; }
+html.fx-lite .fx-glass-dark { backdrop-filter: blur(12px) saturate(1.4) !important; -webkit-backdrop-filter: blur(12px) saturate(1.4) !important; background: linear-gradient(135deg, rgba(30,27,23,.92), rgba(10,9,8,.84)) !important; }
+html.fx-lite .vk-glass, html.fx-lite .fx-chip { backdrop-filter: blur(10px) saturate(1.6) !important; -webkit-backdrop-filter: blur(10px) saturate(1.6) !important; }
+html.fx-lite header.fx-scrolled { backdrop-filter: blur(16px) saturate(1.6) !important; -webkit-backdrop-filter: blur(16px) saturate(1.6) !important; background: rgba(244,239,233,.62) !important; }
+html.fx-lite .fx-par { scale: 1.08; }
+html.fx.fx-lite .rv { transform: translateY(28px) scale(.99); filter: blur(8px);
+  transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1), filter .7s cubic-bezier(.2,.7,.2,1); transition-delay: var(--fx-d, 0ms); }
+html.fx.fx-lite .rv.fx-in { transform: none; filter: none; }
+/* toque: el brillo aparece donde tocas y se desvanece */
+html.fx-lite .fx-spot.fx-tap::after { opacity: 1; transition: opacity .1s; }
+html.fx-lite .fx-spot::after { background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(242,146,0,.18), rgba(255,255,255,.2) 25%, transparent 55%); }
+html.fx-lite .vk-btn--primary:active::before { transform: translateX(360%) skewX(-20deg); transition-duration: .5s; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

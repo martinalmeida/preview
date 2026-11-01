@@ -1,0 +1,85 @@
+/* Vogelkop · correcciones de layout y espaciado compartidas por las tres páginas */
+
+/* Los campos del design system traen min-width: 240px: en columnas angostas se salían de la tarjeta */
+.vk-field { min-width: 0; }
+.vk-field .vk-input { min-width: 0; }
+
+/* Botones de ancho completo: el texto puede partir en dos líneas en vez de desbordar */
+.vk-btn--block { white-space: normal; text-align: center; height: auto; min-height: 48px; padding-top: 12px; padding-bottom: 12px; line-height: 1.25; }
+
+/* Etiquetas de etapas del visor: en pantallas chicas solo la barra (la etapa actual ya se ve arriba) */
+@media (max-width: 520px) { .vk-stepbtn .data-sm { display: none; } }
+
+/* ---------- header: el menú completo necesita ~1000px; debajo, menú ☰ ---------- */
+@media (max-width: 1000px) {
+  .vk-nav-main { display: none !important; }
+  .vk-burger { display: grid !important; }
+  .vk-mnav.open { display: block !important; }
+  .vk-hdr { flex-wrap: nowrap !important; }
+}
+
+/* ---------- grillas sin huérfanos ---------- */
+.vk-grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 640px) { .vk-grid3 { grid-template-columns: minmax(0, 1fr); } }
+
+.vk-steps { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1000px) {
+  /* en tablet y móvil, cada paso es una fila: número a la izquierda, texto a la derecha */
+  .vk-steps { grid-template-columns: minmax(0, 1fr); }
+  .vk-steps > li { display: grid !important; grid-template-columns: 56px minmax(0, 1fr); column-gap: 16px; row-gap: 4px !important; align-items: baseline; }
+  .vk-steps > li > .data { grid-row: span 2; }
+}
+
+/* ---------- héroe: lado a lado desde 1000px ---------- */
+@media (max-width: 760px) { .vk-hero-3d { min-height: 440px !important; } }
+
+/* ---------- tarjeta flotante del portal: dentro de la foto en pantallas angostas ---------- */
+@media (max-width: 900px) { .vk-float { left: 16px !important; right: 16px; bottom: -32px !important; max-width: none !important; } }
+
+/* ---------- footer ---------- */
+.vk-foot-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1.2fr); }
+@media (max-width: 900px) { .vk-foot-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .vk-foot-brand { grid-column: 1 / -1; } }
+@media (max-width: 520px) { .vk-foot-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* menú móvil alineado con el padding del header */
+.vk-mnav { padding: 4px 32px 20px !important; }
+@media (max-width: 760px) { .vk-mnav { padding: 4px 20px 20px !important; } }
+
+/* títulos grandes con tamaño fluido: no se parten en 5 líneas en columnas medianas */
+.vk-h1 { font-size: clamp(38px, 3.4vw + 10px, 56px) !important; line-height: 1.08 !important; }
+.display-lg { font-size: clamp(30px, 2.2vw + 12px, 40px); line-height: 1.15; }
+
+/* ---------- Recorridos ---------- */
+@media (min-width: 641px) and (max-width: 1000px) {
+  .vk-plist { max-width: none !important; flex-basis: 100% !important; display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vk-plist > .fx-glass { display: none !important; }
+}
+@media (max-width: 640px) {
+  .vk-gal { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; grid-template-rows: 240px 160px !important; min-height: 0 !important; }
+  .vk-gal-main { grid-row: auto !important; grid-column: 1 / -1; }
+}
+
+/* ---------- Portal ---------- */
+.vk-grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1000px) { .vk-grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .vk-grid4 { grid-template-columns: minmax(0, 1fr); } .vk-thumb-date { display: none; } }
+
+/* el visor de Recorridos entra deslizándose sin desvanecer: su portada cuenta como pintada apenas carga */
+.vk-stage.vk-in { animation-name: fxRise !important; }
+@keyframes fxRise { from { transform: translateY(28px) scale(.985); } to { transform: none; } }
+
+/* ---------- home en celular ---------- */
+@media (max-width: 760px) {
+  .fx-cta { display: none !important; }              /* el header ya muestra "Agenda tu cita" */
+  .vk-stat-u { font-size: .62em; }
+  .vk-quote { padding: 24px !important; gap: 18px !important; }
+  .vk-quote blockquote { font-size: 19px !important; line-height: 28px !important; }
+}
+@media (max-width: 520px) {
+  .vk-float { gap: 10px 14px !important; padding: 12px 14px !important; flex-wrap: nowrap !important; }
+  .vk-float svg { width: 44px; height: 44px; flex: none; }
+  .vk-float .vk-badge { display: none; }
+  .vk-float .display-md { font-size: 22px !important; line-height: 26px !important; }
+}
+@media (max-width: 900px) { div:has(> .vk-float) { margin-bottom: 20px; } }
+@media (max-width: 520px) { .vk-steps > li { grid-template-columns: 36px minmax(0, 1fr); } }

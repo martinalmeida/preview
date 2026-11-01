@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="ds/vogelkop/components/bundle.css">
 <script src="ds/vogelkop/components/bundle.js"></script>
 <link rel="stylesheet" href="assets/fx.css">
+<link rel="stylesheet" href="assets/layout.css">
 <script src="assets/fx.js"></script>
 <script defer src="./assets/fb52fda4e33de0cb2643d2c8c4f269ec.js"></script>
 <script defer src="./assets/4cae64bf54ed648ecbfcb370749adaf7.js"></script>
@@ -108,7 +109,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 .vk-tabbtn{all:unset;box-sizing:border-box;cursor:pointer;padding:12px 4px;font-weight:500;font-size:14px;color:#5f574d;border-bottom:2px solid transparent;white-space:nowrap}
 .vk-tabbtn.on{color:#12100e;border-color:#f29200}
 .vk-tabbtn:focus-visible{outline:2px solid #f29200;outline-offset:2px}
-@media (max-width:760px){.display-lg{font-size:32px!important;line-height:38px!important}.display-md{font-size:24px!important;line-height:30px!important}.vk-phwrap{overflow-x:auto}.vk-phwrap .vk-phases{min-width:600px}.vk-plist{max-width:none!important;flex-direction:row!important;overflow-x:auto;flex-basis:100%!important}.vk-pitem{flex:0 0 260px}.vk-stage{min-height:480px!important}}
+@media (max-width:640px){.display-lg{font-size:32px!important;line-height:38px!important}.display-md{font-size:24px!important;line-height:30px!important}.vk-phwrap{overflow-x:auto}.vk-phwrap .vk-phases{min-width:600px}.vk-plist{max-width:none!important;flex-direction:row!important;overflow-x:auto;flex-basis:100%!important}.vk-pitem{flex:0 0 260px}.vk-stage{min-height:480px!important}}
 </style>
 </helmet>
 <div class="vk-app" style="font-family: var(--font-sans); color: var(--text); min-height: 100vh; overflow-x: clip;">
@@ -116,7 +117,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
   <header style="position: sticky; top: 0; z-index: 20; background: rgba(244,239,233,0.88); backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid var(--border);">
     <div class="vk-hdr" style="max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
       <a href="Main.dc.html" aria-label="Vogelkop, inicio" style="display: flex;"><img src="./assets/ea72ceb5b406d3b13951fd4740ac78c8.png" alt="Vogelkop Arquitectura e Ingeniería" class="vk-logo" style="width: 168px; height: auto; display: block;"></a>
-      <nav aria-label="Principal" class="vk-hide-sm" style="display: flex; gap: 28px; align-items: center;">
+      <nav aria-label="Principal" class="vk-nav-main" style="display: flex; gap: 28px; align-items: center;">
         <a class="vk-nav-link" href="Main.dc.html#proyectos">Proyectos</a>
         <a class="vk-nav-link on" aria-current="page" href="Recorridos.dc.html">Recorridos 3D</a>
         <a class="vk-nav-link" href="Main.dc.html#proceso">Cómo trabajamos</a>
@@ -124,7 +125,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       </nav>
       <div style="display: flex; gap: 12px; align-items: center;">
         <a href="SoyCliente.dc.html" class="vk-btn vk-btn--ghost vk-hide-sm" style="text-decoration: none;">Ingresar</a>
-        <a href="Main.dc.html#contacto" class="vk-btn vk-btn--primary vk-cta-top" style="text-decoration: none;">Agenda tu cita</a>
+        <a href="Main.dc.html#contacto" class="vk-btn vk-btn--primary vk-cta-top fx-shine" style="text-decoration: none;">Agenda tu cita</a>
         <button class="vk-burger" onClick="{{toggleMenu}}" aria-label="Abrir menú" aria-expanded="{{menuOpen}}">
           <sc-if value="{{menuClosed}}" hint-placeholder-val="{{ true }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></sc-if>
           <sc-if value="{{menuIsOpen}}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></sc-if>
@@ -173,7 +174,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
     </aside>
 
     <div ref="{{setWrap}}" class="vk-stage vk-in d3" style="flex: 999 1 640px; min-width: 0; position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 640px; background: var(--vk-black);">
-      <img src="{{poster}}" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 1.2s ease; opacity: {{posterOpacity}};">
+      <img fetchpriority="high" alt="" aria-hidden="true" src="{{poster}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 1.2s ease; opacity: {{posterOpacity}};">
       <sc-if value="{{isOrbit}}" hint-placeholder-val="{{ true }}">
         <canvas ref="{{setOrbit}}" role="img" aria-label="{{canvasLabel}}" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab;"></canvas>
       </sc-if>
@@ -242,8 +243,8 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
           </sc-for>
         </div>
       </div>
-      <div class="rv" style="flex: 999 1 560px; min-width: 0; display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; min-height: 460px;">
-        <div style="grid-row: span 2; border-radius: var(--radius-lg); overflow: hidden;"><img class="fx-par" src="{{cur.g1}}" alt="{{cur.name}}, vista principal" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+      <div class="rv vk-gal" style="flex: 999 1 560px; min-width: 0; display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; min-height: 460px;">
+        <div class="vk-gal-main" style="grid-row: span 2; border-radius: var(--radius-lg); overflow: hidden;"><img class="fx-par" src="{{cur.g1}}" alt="{{cur.name}}, vista principal" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
         <div style="border-radius: var(--radius-lg); overflow: hidden;"><img class="fx-par" src="{{cur.g2}}" alt="{{cur.name}}, vista secundaria" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
         <div style="border-radius: var(--radius-lg); overflow: hidden;"><img class="fx-par" src="{{cur.g3}}" alt="{{cur.name}}, detalle" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
       </div>
@@ -277,8 +278,8 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 
   <footer class="vk-foot" style="background: var(--vk-black); color: var(--nav-muted); border-top: 1px solid var(--nav-line);">
     <div style="max-width: 1280px; margin: 0 auto; padding: 64px 32px 32px; display: flex; flex-direction: column; gap: 48px;">
-      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;">
-        <div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 20px; max-width: 340px;">
+      <div class="vk-foot-grid" style="display: grid; gap: 40px;">
+        <div class="vk-foot-brand" style="display: flex; flex-direction: column; gap: 20px; max-width: 340px;">
           <img src="./assets/c98938c5839b52adfc5bf3c2bab4b4be.png" alt="Vogelkop Arquitectura e Ingeniería" style="width: 200px; height: auto;">
           <p class="body-sm" style="margin: 0;">Diseño, ingeniería, licencias y construcción con un solo responsable. Bogotá y Sabana Centro.</p>
           <div style="display: flex; gap: 10px;">
@@ -314,22 +315,22 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2600}}'>
 var VK_PROJECTS = [
   { id: 'casa', name: 'Casa Ríos', code: 'VK-2026-CR14', city: 'Chía', area: '412 m²', meta: 'Vivienda · Chía · 2027', estado: 'En obra', tone: 'brand',
-    thumb: './assets/t/bfa8584effdfa4238c696cda8816d4d8.jpg', poster: './assets/be17bf3dd51c0c19ae9514984ac4746c.jpg',
+    thumb: './assets/t/bfa8584effdfa4238c696cda8816d4d8.jpg', poster: './assets/m/be17bf3dd51c0c19ae9514984ac4746c.jpg',
     g1: './assets/a198c94acd16e511866339ea1a5addc3.jpg', g2: './assets/m/bfa8584effdfa4238c696cda8816d4d8.jpg', g3: './assets/m/310d0d93c0edd22fbec81e40657292bf.jpg',
     desc: 'Vivienda unifamiliar de dos pisos con celosía de madera, terraza con piscina y una sala de doble altura abierta al jardín oriental.',
     specs: [['TIPOLOGÍA', 'Vivienda unifamiliar'], ['ÁREA', '412 m²'], ['PISOS', '2 + terraza'], ['ESTRUCTURA', 'Concreto reforzado'], ['ENTREGA', 'Junio 2027'], ['ALCANCE', 'Diseño + licencias + obra']] },
   { id: 'edificio', name: 'Torre Altamira', code: 'VK-2025-TA08', city: 'Bogotá', area: '8 pisos', meta: 'Residencial · Bogotá · 2027', estado: 'En estructura', tone: 'warning',
-    thumb: './assets/t/87b42683e6f6dec60135b6612a1378cb.jpg', poster: './assets/87b42683e6f6dec60135b6612a1378cb.jpg',
+    thumb: './assets/t/87b42683e6f6dec60135b6612a1378cb.jpg', poster: './assets/m/87b42683e6f6dec60135b6612a1378cb.jpg',
     g1: './assets/87b42683e6f6dec60135b6612a1378cb.jpg', g2: './assets/m/altamira-atardecer.jpg', g3: './assets/m/altamira-lobby.jpg',
     desc: 'Edificio residencial de ocho pisos con 24 apartamentos, balcones corridos y lobby de doble altura sobre la calle principal.',
     specs: [['TIPOLOGÍA', 'Residencial multifamiliar'], ['ÁREA', '3.850 m²'], ['PISOS', '8 + sótano'], ['UNIDADES', '24 apartamentos'], ['ENTREGA', 'Marzo 2027'], ['ALCANCE', 'Ingeniería + obra']] },
   { id: 'pabellon', name: 'Oficinas Mirador', code: 'VK-2024-OM03', city: 'Medellín', area: '960 m²', meta: 'Corporativo · Medellín · 2025', estado: 'Entregada', tone: 'success',
-    thumb: './assets/t/9f8dcaf2b19ac59fa3eb7f0550b71f37.jpg', poster: './assets/9f8dcaf2b19ac59fa3eb7f0550b71f37.jpg',
+    thumb: './assets/t/9f8dcaf2b19ac59fa3eb7f0550b71f37.jpg', poster: './assets/m/9f8dcaf2b19ac59fa3eb7f0550b71f37.jpg',
     g1: './assets/9f8dcaf2b19ac59fa3eb7f0550b71f37.jpg', g2: './assets/m/f70a5499461f57b97542481322fbaf2d.jpg', g3: './assets/m/mirador-plaza.jpg',
     desc: 'Pabellón de dos pisos bajo una cubierta flotante de 38 m. Fachada de vidrio con quiebrasoles naranja que controlan el sol de la tarde.',
     specs: [['TIPOLOGÍA', 'Oficinas'], ['ÁREA', '960 m²'], ['PISOS', '2'], ['CUBIERTA', 'Luz libre de 38 m'], ['ENTREGA', 'Noviembre 2025'], ['ALCANCE', 'Diseño + obra']] },
   { id: 'campestre', name: 'Casa Bruma', code: 'VK-2024-CB11', city: 'La Calera', area: '286 m²', meta: 'Campestre · La Calera · 2025', estado: 'Entregada', tone: 'success',
-    thumb: './assets/t/f9d4dd8ac355c1fc8ff153a450f356ab.jpg', poster: './assets/f9d4dd8ac355c1fc8ff153a450f356ab.jpg',
+    thumb: './assets/t/f9d4dd8ac355c1fc8ff153a450f356ab.jpg', poster: './assets/m/f9d4dd8ac355c1fc8ff153a450f356ab.jpg',
     g1: './assets/f9d4dd8ac355c1fc8ff153a450f356ab.jpg', g2: './assets/m/bruma-atardecer.jpg', g3: './assets/m/bruma-deck.jpg',
     desc: 'Casa de campo con cubierta negra a dos aguas, deck en voladizo sobre la pendiente y una sala de doble altura que mira al bosque.',
     specs: [['TIPOLOGÍA', 'Vivienda campestre'], ['ÁREA', '286 m²'], ['LOTE', '2.400 m²'], ['ESTRUCTURA', 'Metálica + madera'], ['ENTREGA', 'Agosto 2025'], ['ALCANCE', 'Diseño + licencias + obra']] }

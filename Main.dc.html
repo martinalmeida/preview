@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="ds/vogelkop/components/bundle.css">
 <script src="ds/vogelkop/components/bundle.js"></script>
 <link rel="stylesheet" href="assets/fx.css">
+<link rel="stylesheet" href="assets/layout.css">
 <script src="assets/fx.js"></script>
 <script defer src="./assets/fb52fda4e33de0cb2643d2c8c4f269ec.js"></script>
 <script defer src="./assets/4cae64bf54ed648ecbfcb370749adaf7.js"></script>
@@ -96,7 +97,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
   <header style="position: sticky; top: 0; z-index: 20; background: rgba(244,239,233,0.88); backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid var(--border);">
     <div class="vk-hdr" style="max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
       <a href="Main.dc.html" aria-label="Vogelkop, inicio" style="display: flex;"><img src="./assets/ea72ceb5b406d3b13951fd4740ac78c8.png" alt="Vogelkop Arquitectura e Ingeniería" class="vk-logo" style="width: 168px; height: auto; display: block;"></a>
-      <nav aria-label="Principal" class="vk-hide-sm" style="display: flex; gap: 28px; align-items: center;">
+      <nav aria-label="Principal" class="vk-nav-main" style="display: flex; gap: 28px; align-items: center;">
         <a class="vk-nav-link" href="#proyectos">Proyectos</a>
         <a class="vk-nav-link" href="Recorridos.dc.html">Recorridos 3D</a>
         <a class="vk-nav-link" href="#proceso">Cómo trabajamos</a>
@@ -104,7 +105,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       </nav>
       <div style="display: flex; gap: 12px; align-items: center;">
         <a href="SoyCliente.dc.html" class="vk-btn vk-btn--ghost vk-hide-sm" style="text-decoration: none;">Ingresar</a>
-        <a href="#contacto" class="vk-btn vk-btn--primary vk-cta-top" style="text-decoration: none;">Agenda tu cita</a>
+        <a href="#contacto" class="vk-btn vk-btn--primary vk-cta-top fx-shine" style="text-decoration: none;">Agenda tu cita</a>
         <button class="vk-burger" onClick="{{toggleMenu}}" aria-label="Abrir menú" aria-expanded="{{menuOpen}}">
           <sc-if value="{{menuClosed}}" hint-placeholder-val="{{ true }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></sc-if>
           <sc-if value="{{menuIsOpen}}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></sc-if>
@@ -121,7 +122,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 
   <!-- Héroe con 3D vivo -->
   <section style="max-width: 1280px; margin: 0 auto; padding: 56px 32px 40px; display: flex; flex-wrap: wrap; gap: 48px; align-items: stretch;">
-    <div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 24px; justify-content: center;">
+    <div class="vk-hero-copy" style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 24px; justify-content: center;">
       <div class="eyebrow vk-in" style="color: var(--accent-text);">ARQUITECTURA E INGENIERÍA</div>
       <h1 class="display-xl vk-h1 vk-in d1" style="margin: 0;">Diseñamos y construimos <span style="color: var(--accent-text);">tu próxima obra.</span></h1>
       <div class="vk-rule" style="width: 64px; height: 2px; background: var(--accent);"></div>
@@ -139,7 +140,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
               <x-import component-from-global-scope="Vogelkop.TextField" label="WhatsApp" placeholder="300 000 0000" icon="message-square" inputmode="tel" autocomplete="tel" value="{{tel}}" on-change="{{onTel}}" error="{{telErr}}" style="min-width: 0;"></x-import>
             </div>
             <x-import component-from-global-scope="Vogelkop.Select" label="¿Qué quieres construir?" placeholder="Selecciona…" options="{{tipos}}"></x-import>
-            <x-import component-from-global-scope="Vogelkop.Button" size="lg" block="{{ true }}" icon-right="arrow-right" on-click="{{send}}">Quiero mi cotización gratis</x-import>
+            <x-import component-from-global-scope="Vogelkop.Button" size="lg" block="{{ true }}" icon-right="arrow-right" class-name="fx-shine" on-click="{{send}}">Quiero mi cotización gratis</x-import>
             <div class="body-sm" style="color: var(--text-muted); display: flex; gap: 8px; align-items: center;">
               <x-import component-from-global-scope="Vogelkop.Icon" name="circle-check" size="{{ 16 }}"></x-import>
               Te llamamos hoy mismo. Sin compromiso.
@@ -157,7 +158,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       </form>
     </div>
 
-    <div class="vk-in d2" style="flex: 1 1 560px; min-width: 0; position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 600px; background: var(--vk-black);">
+    <div class="vk-in d2 vk-hero-3d" style="flex: 1 1 480px; min-width: 0; position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 600px; background: var(--vk-black);">
       <img srcset="./assets/m/be17bf3dd51c0c19ae9514984ac4746c.jpg 800w, ./assets/be17bf3dd51c0c19ae9514984ac4746c.jpg 1600w" sizes="(max-width: 760px) 66vw, 60vw" fetchpriority="high" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 1.2s ease; opacity: {{posterOpacity}};" src="./assets/be17bf3dd51c0c19ae9514984ac4746c.jpg">
       <canvas ref="{{setCanvas}}" role="img" aria-label="Modelo 3D de Casa Ríos construyéndose etapa por etapa" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab;"></canvas>
       <div style="position: absolute; top: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; pointer-events: none;">
@@ -245,7 +246,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       </div>
     </a>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+    <div class="vk-grid3" style="display: grid; gap: 24px;">
       <sc-for list="{{proyectos}}" as="p" hint-placeholder-count="3">
         <a href="{{p.href}}" class="vk-card-link rv" style="display: flex; flex-direction: column; gap: 16px;">
           <div style="border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4 / 5; background: var(--surface-alt); position: relative;">
@@ -253,7 +254,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
             <div style="position: absolute; top: 16px; left: 16px;"><x-import component-from-global-scope="Vogelkop.Badge" tone="{{p.tone}}">{{p.estado}}</x-import></div>
             <div class="vk-veil"><span class="vk-btn vk-btn--primary" style="pointer-events: none;">Recorrer en 3D <span class="vk-arr">→</span></span></div>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px;">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 12px;">
             <h3 class="heading-lg" style="margin: 0;">{{p.nombre}}</h3>
             <span class="data" style="color: var(--text-muted);">{{p.area}}</span>
           </div>
@@ -295,7 +296,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
         <div class="eyebrow" style="color: var(--accent-text);">CÓMO TRABAJAMOS</div>
         <h2 class="display-lg" style="margin: 0;">Cinco pasos. Un solo responsable.</h2>
       </div>
-      <ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;">
+      <ol class="vk-steps" style="list-style: none; margin: 0; padding: 0; display: grid; gap: 16px;">
         <sc-for list="{{pasos}}" as="s" hint-placeholder-count="5">
           <li class="rv fx-glass fx-spot" style="display: flex; flex-direction: column; gap: 12px; padding: 28px 22px 24px; border-radius: var(--radius-lg); position: relative; overflow: hidden;">
             <span class="rv-line" style="position: absolute; top: 0; left: 0; right: 0; height: 2px; background: {{s.line}};"></span>
@@ -312,7 +313,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
   <section style="max-width: 1280px; margin: 0 auto; padding: 96px 32px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center;">
     <div class="rv" style="flex: 999 1 560px; min-width: 0; position: relative;">
       <div style="border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 3 / 2;"><img class="fx-par" srcset="./assets/m/310d0d93c0edd22fbec81e40657292bf.jpg 800w, ./assets/310d0d93c0edd22fbec81e40657292bf.jpg 1200w" sizes="(max-width: 760px) 66vw, 60vw" loading="lazy" decoding="async" alt="Casa Ríos en obra gris con andamios" style="width: 100%; height: 100%; object-fit: cover; display: block;" src="./assets/310d0d93c0edd22fbec81e40657292bf.jpg"></div>
-      <div class="fx-glass" style="position: absolute; left: -12px; bottom: -28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 18px 22px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; max-width: 92%;">
+      <div class="fx-glass vk-float" style="position: absolute; left: -12px; bottom: -28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 18px 22px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; max-width: 92%;">
         <svg width="64" height="64" viewBox="0 0 156 156" aria-hidden="true"><circle cx="78" cy="78" r="66" fill="none" stroke="var(--surface-alt)" stroke-width="16"></circle><circle cx="78" cy="78" r="66" fill="none" stroke="var(--accent)" stroke-width="16" stroke-dasharray="414.7" stroke-dashoffset="157.6" transform="rotate(-90 78 78)" style="animation: vkRing 1.8s .4s cubic-bezier(.2,.7,.2,1) both;"></circle></svg>
         <div><div class="data-sm" style="color: var(--text-muted);">AVANCE</div><div class="display-md fx-count">62%</div></div>
         <div style="width: 1px; align-self: stretch; background: var(--border);"></div>
@@ -336,7 +337,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 
   <!-- Diferenciales -->
   <section style="max-width: 1280px; margin: 0 auto; padding: 32px 32px 96px;">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+    <div class="vk-grid3" style="display: grid; gap: 16px;">
       <div class="rv fx-glass fx-spot" style="padding: 32px; border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 12px;">
         <x-import component-from-global-scope="Vogelkop.Icon" name="drafting-compass" size="{{ 28 }}"></x-import>
         <div class="heading-md">Diseño + ingeniería + obra</div>
@@ -361,12 +362,12 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
       <div class="rv" style="flex: 1 1 520px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 32px;">
         <sc-for list="{{stats}}" as="k" hint-placeholder-count="4">
           <div style="display: flex; flex-direction: column; gap: 8px; border-top: 2px solid var(--text); padding-top: 16px;">
-            <span class="vk-stat fx-count">{{k.v}}<span style="color: var(--accent);">{{k.u}}</span></span>
+            <span class="vk-stat fx-count">{{k.v}}<span class="vk-stat-u" style="color: var(--accent);">{{k.u}}</span></span>
             <span class="body-sm" style="color: var(--text-muted);">{{k.l}}</span>
           </div>
         </sc-for>
       </div>
-      <figure class="rv fx-glass fx-spot" style="flex: 1 1 420px; margin: 0; display: flex; flex-direction: column; gap: 24px; padding: 36px; border-radius: var(--radius-lg);">
+      <figure class="rv fx-glass fx-spot vk-quote" style="flex: 1 1 420px; margin: 0; display: flex; flex-direction: column; gap: 24px; padding: 36px; border-radius: var(--radius-lg);">
         <svg width="40" height="32" viewBox="0 0 40 32" aria-hidden="true"><path fill="var(--accent)" d="M0 32V19.2C0 8.6 5.4 2.2 16.2 0l1.6 4.4C11.6 6.4 8.6 10 8.4 15.2H16V32H0Zm22 0V19.2C22 8.6 27.4 2.2 38.2 0l1.6 4.4c-6.2 2-9.2 5.6-9.4 10.8H38V32H22Z"></path></svg>
         <blockquote class="heading-lg" style="margin: 0; font-weight: 500; line-height: 34px;">Vivimos en Bogotá y la casa la hicieron en Chía. Cada viernes veíamos las fotos y el avance en el portal; nunca tuvimos que ir a preguntar cómo iba la obra.</blockquote>
         <figcaption style="display: flex; gap: 14px; align-items: center;">
@@ -396,7 +397,7 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
             <sc-if value="{{cErr}}" hint-placeholder-val="{{ false }}">
               <div class="body-sm" role="alert" style="color: #ff8b7e;">Escribe tu nombre y un número de 10 dígitos.</div>
             </sc-if>
-            <button type="submit" class="vk-btn vk-btn--primary vk-btn--lg vk-btn--block" style="margin-top: 8px;">Llámenme hoy</button>
+            <button type="submit" class="vk-btn vk-btn--primary vk-btn--lg vk-btn--block fx-shine" style="margin-top: 8px;">Llámenme hoy</button>
             <a href="{{waHref}}" target="_blank" rel="noopener" class="vk-btn vk-btn--lg vk-btn--block" style="box-sizing: border-box; text-decoration: none; background: transparent; color: var(--vk-cream); border-color: var(--nav-muted); gap: 10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3M12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.8 1 3.8 1.5 5.8 1.5 6.6 0 12-5.4 12-12 0-3.2-1.3-6.2-3.5-8.4"></path></svg>Escribir por WhatsApp</a>
           </div>
         </sc-if>
@@ -414,8 +415,8 @@ a:hover .vk-arr,button:hover .vk-arr{transform:translateX(5px)}
 
   <footer class="vk-foot" style="background: var(--vk-black); color: var(--nav-muted); border-top: 1px solid var(--nav-line);">
     <div style="max-width: 1280px; margin: 0 auto; padding: 64px 32px 32px; display: flex; flex-direction: column; gap: 48px;">
-      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;">
-        <div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 20px; max-width: 340px;">
+      <div class="vk-foot-grid" style="display: grid; gap: 40px;">
+        <div class="vk-foot-brand" style="display: flex; flex-direction: column; gap: 20px; max-width: 340px;">
           <img src="./assets/c98938c5839b52adfc5bf3c2bab4b4be.png" alt="Vogelkop Arquitectura e Ingeniería" style="width: 200px; height: auto;">
           <p class="body-sm" style="margin: 0;">Diseño, ingeniería, licencias y construcción con un solo responsable. Bogotá y Sabana Centro.</p>
           <div style="display: flex; gap: 10px;">
